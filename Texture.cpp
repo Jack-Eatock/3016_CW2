@@ -5,7 +5,8 @@ Texture::Texture(const char* image, GLenum texType, GLenum slot, GLenum format, 
 	// Assigns the type of the texture ot the texture object
 	type = texType;
 
-	int widthImg, heightImg, numColCh;
+	// The width and height is obtained from the image itself.
+	int widthImg = 1, heightImg, numColCh;
 	stbi_set_flip_vertically_on_load(true); // STBI has inverse axis to OpenGl so flip the image.
 	unsigned char* bytes = stbi_load(image, &widthImg, &heightImg, &numColCh, 0);  // Convert the image into bytes
 
