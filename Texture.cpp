@@ -1,6 +1,6 @@
 #include"Texture.h"
 
-Texture::Texture(const char* image, const char* texType, GLenum slot, GLenum format, GLenum pixelType)
+Texture::Texture(const char* image, const char* texType, GLuint slot, GLenum format, GLenum pixelType)
 {
 	// Assigns the type of the texture ot the texture object
 	type = texType;
@@ -13,7 +13,8 @@ Texture::Texture(const char* image, const char* texType, GLenum slot, GLenum for
 	std::cout << "TEXTIRE";
 
 	glGenTextures(1, &ID); // Gen a texture object
-	glActiveTexture(slot); // Activate the texture object
+	glActiveTexture(GL_TEXTURE0 + slot); // Activate the texture object
+	unit = slot;
 	glBindTexture(GL_TEXTURE_2D, ID);// Bind it so we can edit it 
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR); // Add  properties to the texture. Such as nearest Neighbour
@@ -43,6 +44,7 @@ void Texture::texUnit(Shader& shader, const char* uniform, GLuint unit)
 
 void Texture::Bind()
 {
+	glActiveTexture(GL_TEXTURE0 + unit);
 	glBindTexture(GL_TEXTURE_2D, ID);
 }
 

@@ -5,10 +5,10 @@ out vec4 FragColor;
 
 // Imports the current position from the Vertex Shader
 in vec3 crntPos;
-// Imports the color from the Vertex Shader
-in vec3 color;
 // Imports the normal from the Vertex Shader
 in vec3 Normal;
+// Imports the color from the Vertex Shader
+in vec3 color;
 // Imports the texture coordinates from the Vertex Shader
 in vec2 texCoord;
 
@@ -16,6 +16,8 @@ in vec2 texCoord;
 
 // Gets the Texture Unit from the main function
 uniform sampler2D diffuse0;
+// Gets the Specular Texture Unit from the main function
+uniform sampler2D specular0;
 // Gets the color of the light from the main function
 uniform vec4 lightColor;
 // Gets the position of the light from the main function
@@ -30,7 +32,7 @@ vec4 pointLight()
 	float dist = length(lightVec);
 	float a = .05f;
 	float b = 0.01f;
-	float inten = 1.0f / (a * dist * dist + b * dist + 1.0f);
+	float inten = 1.0f; // / (a * dist * dist + b * dist + 1.0f);
 
 	// ambient lighting
 	float ambient = 0.20f;
@@ -47,7 +49,7 @@ vec4 pointLight()
 	float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 8);
 	float specular = specAmount * specularLight;
 
-	return (texture(diffuse0, texCoord) * ((diffuse * inten) + ambient + (specular * inten)) * lightColor);
+	return (texture(diffuse0, texCoord) * (diffuse * inten + ambient) + texture(specular0, texCoord).r * specular * inten) * lightColor;
 }
 
 vec4 directionLight()
@@ -64,10 +66,10 @@ vec4 directionLight()
 	float specularLight = 0.50f;
 	vec3 viewDirection = normalize(camPos - crntPos);
 	vec3 reflectionDirection = reflect(-lightDirection, normal);
-	float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 8);
+	float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
 	float specular = specAmount * specularLight;
 
-	return (texture(diffuse0, texCoord) * (diffuse + ambient + specular) * lightColor);
+	return (texture(diffuse0, texCoord) * (diffuse + ambient) + texture(specular0, texCoord).r * specular) * lightColor;
 }
 
 vec4 spotLight()
@@ -87,18 +89,18 @@ vec4 spotLight()
 	float specularLight = 0.50f;
 	vec3 viewDirection = normalize(camPos - crntPos);
 	vec3 reflectionDirection = reflect(-lightDirection, normal);
-	float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 8);
+	float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
 	float specular = specAmount * specularLight;
 
 	// Calculate the light circles.
 	float angle = dot(vec3(0.0f, -1.0f, 0.0f), -lightDirection);
 	float inten = clamp((angle - outerCone) / (innerCone - outerCone), 0.0f, 1.0f);
 
-	return (texture(diffuse0, texCoord) * ((diffuse * inten) + ambient + (specular * inten)) * lightColor);
+	return (texture(diffuse0, texCoord) * (diffuse * inten + ambient) + texture(specular0, texCoord).r * specular * inten) * lightColor;
 }
 
 void main()
 {
 	// outputs final color
-	FragColor =  spotLight();
+	FragColor =  pointLight();
 }
