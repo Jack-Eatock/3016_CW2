@@ -30,13 +30,13 @@
     <ClCompile Include="shaderClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VBO.cpp">
+    <ClCompile Include="VertexBufferObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EBO.cpp">
+    <ClCompile Include="EntityBufferObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VAO.cpp">
+    <ClCompile Include="VertexArrayObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="stb.cpp">
@@ -45,7 +45,7 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
+    <ClCompile Include="CamController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -67,19 +67,19 @@
     <ClInclude Include="shaderClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VBO.h">
+    <ClInclude Include="VertexBufferObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EBO.h">
+    <ClInclude Include="EntityBufferObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VAO.h">
+    <ClInclude Include="VertexArrayObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
+    <ClInclude Include="CamController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

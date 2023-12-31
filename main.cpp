@@ -7,11 +7,11 @@
 #include<glm/gtc/type_ptr.hpp>
 
 #include"shaderClass.h"
-#include"VAO.h"
-#include"VBO.h"
-#include"EBO.h"
+#include"VertexArrayObject.h"
+#include"VertexBufferObject.h"
+#include"EntityBufferObject.h"
 #include"Texture.h"
-#include"Camera.h"
+#include"CamController.h"
 
 const unsigned int width = 800, height = 800;
 
@@ -112,11 +112,11 @@ int main()
 
 	Shader shaderProgram("default.vert", "default.frag"); // Setting up Shader
 
-	VAO VAO1; // Set up vertex reference object
+	VertexArrayObject VAO1; // Set up vertex reference object
 	VAO1.Bind(); // Bind the vertex object
 
-	VBO VBO1(vertices, sizeof(vertices)); // Set up Vertex Buffer reference object
-	EBO EBO1(indices, sizeof(indices)); // Generates Element Buffer Object and links it to indices
+	VertexBufferObject VBO1(vertices, sizeof(vertices)); // Set up Vertex Buffer reference object
+	EntityBufferObject EBO1(indices, sizeof(indices)); // Generates Element Buffer Object and links it to indices
 
 	// Links VBO attributes such as coordinates and colors to VAO
 	VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 11 * sizeof(float), (void*)0);
@@ -131,11 +131,11 @@ int main()
 
 	Shader lightShader("light.vert", "light.frag");
 
-	VAO lightVAO;
+	VertexArrayObject lightVAO;
 	lightVAO.Bind();
 
-	VBO lightVBO(lightVertices, sizeof(lightVertices));
-	EBO lightEBO(lightIndices, sizeof(lightIndices));
+	VertexBufferObject lightVBO(lightVertices, sizeof(lightVertices));
+	EntityBufferObject lightEBO(lightIndices, sizeof(lightIndices));
 
 	lightVAO.LinkAttrib(lightVBO, 0, 3, GL_FLOAT, 3 * sizeof(float), (void*)0);
 
@@ -168,7 +168,7 @@ int main()
 
 	glEnable(GL_DEPTH_TEST); // Closer objects rendered on top. 
 
-	Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
+	CamController camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
 
 	// Game loop
 	while (!glfwWindowShouldClose(window))
