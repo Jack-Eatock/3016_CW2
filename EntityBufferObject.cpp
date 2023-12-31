@@ -1,11 +1,12 @@
 #include"EntityBufferObject.h"
 
+
 // Constructor that generates a Elements Buffer Object and links it to indices
-EntityBufferObject::EntityBufferObject(GLuint* indices, GLsizeiptr size)
+EntityBufferObject::EntityBufferObject(std::vector<GLuint>& indices)
 {
 	glGenBuffers(1, &ID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ID);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * indices.size(), indices.data(), GL_STATIC_DRAW);
 }
 
 // Binds the EBO
