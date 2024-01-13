@@ -1,4 +1,7 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (COMP3106_CW2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Main.cpp
   Mesh.cpp
-C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Mesh.cpp(89,43): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Mesh.cpp(102,43): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+  Model.cpp
+  Generating Code...
   COMP3106_CW2.vcxproj -> C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\x64\Debug\COMP3016_CW2.exe

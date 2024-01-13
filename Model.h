@@ -30,7 +30,7 @@ public:
     {
         loadModel(image.c_str());
     }
-    void Draw(Shader& shader, CamController& camera, glm::vec3 objectPos, glm::mat4 objectModel, glm::vec4 lightColor, glm::vec3 SpotLightPositions[]);
+    void Draw(Shader& shader, CamController& camera, glm::vec3 objectPos, glm::mat4 objectModel, glm::vec4 lightColor, glm::vec3 SpotLightPositions[], glm::vec3 pointLightPositions[]);
 private:
     // model data
     vector<Mesh> meshes;

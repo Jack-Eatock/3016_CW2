@@ -48,8 +48,6 @@ GLuint lightIndices[] =
 };
 
 
-
-
 int main()
 {
 	// Initialize GLFW
@@ -90,6 +88,15 @@ int main()
 		glm::vec3(4.0f,  0.0f,22.0f),
 		glm::vec3(1.0f, .3f, 1.0f)
 	};
+
+	// positions of the point lights
+	glm::vec3 PointLightPositions[] = {
+		glm::vec3(20.0f, 1.0f, .5f),
+		glm::vec3(1.0f,  .3f, -.5f),
+		glm::vec3(4.0f,  0.0f,22.0f),
+		glm::vec3(1.0f, .3f, 1.0f)
+	};
+
 
 	Shader shaderProgram("default.vert", "default.frag"); // Setting up Shader
 	std::vector <Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
@@ -132,12 +139,12 @@ int main()
 		camera.Inputs(window);
 		camera.UpdateMatrix(45.0f, .1f, 100.0f);
 
-		floor.Draw(shaderProgram, camera,     glm::vec3(0.5f, .0f, 1.0f),     glm::mat4(1.0f), lightColor, SpotLightPositions);
-		light.Draw(lightShader, camera, SpotLightPositions[0], glm::mat4(1.0f), lightColor, SpotLightPositions);
-		light1.Draw(lightShader, camera, SpotLightPositions[1], glm::mat4(1.0f), lightColor, SpotLightPositions);
-		light2.Draw(lightShader, camera, SpotLightPositions[2], glm::mat4(1.0f), lightColor, SpotLightPositions);
-		light3.Draw(lightShader, camera, SpotLightPositions[3], glm::mat4(1.0f), lightColor, SpotLightPositions);
-		//ourModel.Draw(shaderProgram, camera,  glm::vec3(3.0f, 1.0f, 3.0f),    glm::mat4(.25f), lightColor, SpotLightPositions);
+		floor.Draw(shaderProgram, camera,     glm::vec3(0.5f, .0f, 1.0f),     glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
+		light.Draw(lightShader, camera, SpotLightPositions[0], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
+		light1.Draw(lightShader, camera, SpotLightPositions[1], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
+		light2.Draw(lightShader, camera, SpotLightPositions[2], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
+		light3.Draw(lightShader, camera, SpotLightPositions[3], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
+		ourModel.Draw(shaderProgram, camera,  glm::vec3(3.0f, 1.0f, 3.0f),    glm::mat4(.25f), lightColor, SpotLightPositions, PointLightPositions);
 
 		glfwSwapBuffers(window);// Swap the back buffer with the front buffer
 		glfwPollEvents();

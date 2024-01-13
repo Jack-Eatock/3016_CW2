@@ -1,10 +1,10 @@
 #include "Model.h"
 
 
-void Model::Draw(Shader& shader, CamController& camera, glm::vec3 objectPos, glm::mat4 objectModel, glm::vec4 lightColor, glm::vec3 SpotLightPositions[])
+void Model::Draw(Shader& shader, CamController& camera, glm::vec3 objectPos, glm::mat4 objectModel, glm::vec4 lightColor, glm::vec3 SpotLightPositions[], glm::vec3 pointLightPositions[])
 {
     for (unsigned int i = 0; i < meshes.size(); i++)
-        meshes[i].Draw(shader, camera, objectPos, objectModel, lightColor, SpotLightPositions);
+        meshes[i].Draw(shader, camera, objectPos, objectModel, lightColor, SpotLightPositions, pointLightPositions);
 }
 
 void Model::loadModel(string path)

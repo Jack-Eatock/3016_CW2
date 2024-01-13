@@ -12,6 +12,18 @@ in vec3 color;
 // Imports the texture coordinates from the Vertex Shader
 in vec2 texCoord;
 
+struct PointLight {
+    vec3 position;
+    
+    float constant;
+    float linear;
+    float quadratic;
+	
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+};
+
 struct SpotLight {
     vec3 position;
     vec3 direction;
@@ -27,11 +39,12 @@ struct SpotLight {
     vec3 specular;       
 };
 
-#define NR_POINT_LIGHTS 0
+#define NR_POINT_LIGHTS 4
 #define NR_DIRECTIONAL_LIGHTS 1
 #define NR_SPOT_LIGHTS 4
 
 uniform SpotLight spotLights[NR_SPOT_LIGHTS];
+uniform PointLight pointLights[NR_POINT_LIGHTS];
 
 // Gets the Texture Unit from the main function
 uniform sampler2D diffuse0;
@@ -118,6 +131,31 @@ vec4 spotLight()
 	return (texture(diffuse0, texCoord) * (diffuse * inten + ambient) + texture(specular0, texCoord).r * specular * inten) * lightColor;
 }
 
+vec4 CalcPointLight(PointLight pointLight, vec3 viewDirection, vec3 normal )
+{
+	vec3 lightDirection = normalize(pointLight.position - crntPos);
+
+    // diffuse shading
+    float diff = max(dot(normal, lightDirection), 0.0);
+
+    // specular shading
+    vec3 reflectDir = reflect(-lightDirection, normal);
+    float spec = pow(max(dot(viewDirection, reflectDir), 0.0), 16);
+   
+    // attenuation
+    float distance = length(pointLight.position - crntPos);
+    float attenuation = 1.0 / (pointLight.constant + pointLight.linear * distance + pointLight.quadratic * (distance * distance));    
+   
+    // combine results
+    vec3 ambient = pointLight.ambient * vec3(texture(diffuse0, texCoord));
+    vec3 diffuse = pointLight.diffuse * diff * vec3(texture(diffuse0, texCoord));
+    vec3 specular = pointLight.specular * spec * vec3(texture(specular0, texCoord));
+    ambient *= attenuation;
+    diffuse *= attenuation;
+    specular *= attenuation;
+    return  vec4((ambient + diffuse + specular),1.0f);
+}
+
 vec4 CalcSpotLight(SpotLight spotLight, vec3 viewDirection, vec3 normal)
 {
 	// Get the direction of the light!
@@ -150,7 +188,6 @@ vec4 CalcSpotLight(SpotLight spotLight, vec3 viewDirection, vec3 normal)
     return vec4((specular + ambient + diffuse),1.0f);
 }
 
-
 void main()
 {
 	vec3 viewDirection = normalize(camPos - crntPos);
@@ -158,9 +195,13 @@ void main()
 
 	vec4 result = vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
-	for(int i = 0; i < NR_SPOT_LIGHTS; i++)
-		result += CalcSpotLight(spotLights[i], viewDirection, normal);    
+	//for(int i = 0; i < NR_SPOT_LIGHTS; i++)
+		//result += CalcSpotLight(spotLights[i], viewDirection, normal);    
 	
+	for(int i = 0; i < NR_POINT_LIGHTS; i++)
+		result += CalcPointLight(pointLights[i], viewDirection, normal);    
+	
+
 	// outputs final color
 	FragColor =  result;
 }
