@@ -54,6 +54,9 @@
     <ClCompile Include="Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SkyBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="default.vert">
@@ -70,6 +73,12 @@
     </None>
     <None Include="..\Assimp\Assimp\bin\x64\assimp-vc143-mt.dll">
       <Filter>Source Files</Filter>
+    </None>
+    <None Include="Skybox.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Skybox.vert">
+      <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -95,6 +104,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

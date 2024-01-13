@@ -9,8 +9,8 @@ CamController::CamController(int width, int height, glm::vec3 position)
 
 void CamController::UpdateMatrix(float FOVdeg, float nearPlane, float farPlane)
 {
-	glm::mat4 view = glm::mat4(1.0f); // Initializes  matrices for View and Proj
-	glm::mat4 projection = glm::mat4(1.0f);
+	view = glm::mat4(1.0f); // Initializes  matrices for View and Proj
+	projection = glm::mat4(1.0f);
 
 	view = glm::lookAt(Position, Position + Orientation, Up); // Sets  the initial camera pos and rotation
 	projection = glm::perspective(glm::radians(FOVdeg), (float)width / height, nearPlane, farPlane); // Adds perspective to the scene
