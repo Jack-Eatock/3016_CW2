@@ -12,11 +12,11 @@ class SkyBox
 {
 public:
 	SkyBox();
-	void Draw(Shader shader, CamController  camera);
+	void Draw(Shader shader, CamController  camera, float width, float height);
 
 private:
 	unsigned int cubeTexture;
-	unsigned int skyboxVAO, skyboxVBO;
+	unsigned int skyboxVAO, skyboxVBO, skyboxEBO;
 };
 
 #endif
