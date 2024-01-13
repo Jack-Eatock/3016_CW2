@@ -221,3 +221,6 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+x64/
+
+Libraries/
