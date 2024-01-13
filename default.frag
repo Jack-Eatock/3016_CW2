@@ -12,7 +12,26 @@ in vec3 color;
 // Imports the texture coordinates from the Vertex Shader
 in vec2 texCoord;
 
+struct SpotLight {
+    vec3 position;
+    vec3 direction;
+    float cutOff;
+    float outerCutOff;
+  
+    float constant;
+    float linear;
+    float quadratic;
+  
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;       
+};
 
+#define NR_POINT_LIGHTS 0
+#define NR_DIRECTIONAL_LIGHTS 1
+#define NR_SPOT_LIGHTS 4
+
+uniform SpotLight spotLights[NR_SPOT_LIGHTS];
 
 // Gets the Texture Unit from the main function
 uniform sampler2D diffuse0;
@@ -82,7 +101,7 @@ vec4 spotLight()
 
 	// diffuse lighting
 	vec3 normal = normalize(Normal);
-	vec3 lightDirection = normalize(lightPos - crntPos);
+	vec3 lightDirection = normalize(spotLights[3].position - crntPos);
 	float diffuse = max(dot(normal, lightDirection), 0.0f);
 
 	// specular lighting - (BlinnPhong Shading)
@@ -99,8 +118,49 @@ vec4 spotLight()
 	return (texture(diffuse0, texCoord) * (diffuse * inten + ambient) + texture(specular0, texCoord).r * specular * inten) * lightColor;
 }
 
+vec4 CalcSpotLight(SpotLight spotLight, vec3 viewDirection, vec3 normal)
+{
+	// Get the direction of the light!
+	vec3 lightDirection = normalize(spotLight.position - crntPos);
+
+	// diffuse lighting
+	float diff = max(dot(normal, lightDirection), 0.0f);
+
+	// specular lighting - (BlinnPhong Shading)
+	vec3 reflectionDirection = reflect(-lightDirection, normal);
+	float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16); // the 16 is shininess
+
+	 // attenuation
+    float distance = length(spotLight.position - crntPos);
+    float attenuation = 1.0 / (spotLight.constant + spotLight.linear * distance + spotLight.quadratic * (distance * distance));
+
+	// Calculate the light circles.
+	float angle = dot(spotLight.direction, lightDirection); 
+	float epsilon = spotLight.cutOff - spotLight.outerCutOff;
+    float intensity = clamp((angle - spotLight.outerCutOff) / epsilon, 0.0, 1.0);
+
+	// combine results
+    vec3 ambient = spotLight.ambient * vec3(texture(diffuse0, texCoord));
+    vec3 diffuse = spotLight.diffuse * diff * vec3(texture(diffuse0, texCoord));
+    vec3 specular = spotLight.specular * specAmount * vec3(texture(specular0, texCoord));
+
+    ambient *= attenuation * intensity;
+    diffuse *= attenuation * intensity;
+    specular *= attenuation * intensity;
+    return vec4((specular + ambient + diffuse),1.0f);
+}
+
+
 void main()
 {
+	vec3 viewDirection = normalize(camPos - crntPos);
+	vec3 normal = normalize(Normal);
+
+	vec4 result = vec4(0.0f, 0.0f, 0.0f, 0.0f);
+
+	for(int i = 0; i < NR_SPOT_LIGHTS; i++)
+		result += CalcSpotLight(spotLights[i], viewDirection, normal);    
+	
 	// outputs final color
-	FragColor =  directionLight();
+	FragColor =  result;
 }

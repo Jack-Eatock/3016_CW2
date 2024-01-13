@@ -30,7 +30,7 @@ public:
     {
         loadModel(image.c_str());
     }
-    void Draw(Shader& shader, CamController& camera);
+    void Draw(Shader& shader, CamController& camera, glm::vec3 objectPos, glm::mat4 objectModel, glm::vec4 lightColor, glm::vec3 SpotLightPositions[]);
 private:
     // model data
     vector<Mesh> meshes;
@@ -43,7 +43,6 @@ private:
     Mesh processMesh(aiMesh* mesh, const aiScene* scene);
     
     vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
-
 };
 
 #endif

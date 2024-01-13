@@ -26,14 +26,15 @@ Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::vec
 	EBO.Unbind();
 }
 
-void Mesh::Draw(Shader& shader, CamController& camera) 
+void Mesh::Draw(Shader& shader, CamController& camera, glm::vec3 objectPos, glm::mat4 objectModel, glm::vec4 lightColor, glm::vec3 SpotLightPositions[])
 {
 	shader.Activate();
 	VAO.Bind();
 
 	unsigned int numDiffuse = 0;
 	unsigned int numSpecular = 0;
-
+	
+	// Textures
 	for (unsigned int i = 0; i < textures.size(); i++)
 	{
 		std::string num;
@@ -48,12 +49,41 @@ void Mesh::Draw(Shader& shader, CamController& camera)
 			num = std::to_string(numSpecular);
 		}
 		
-		std::cout << "HERE " << (type + num).c_str() << std::endl;
-
+		//std::cout << "HERE " << (type + num).c_str() << std::endl;
 
 		textures[i].texUnit(shader, (type + num).c_str(), i);
 		textures[i].Bind();
 	}
+
+	// Transforms
+	objectModel = glm::translate(objectModel, objectPos);
+  	for (int i = 0; i <4; i++)
+	{
+		// Spot Lights
+
+		std::string lightId = "spotLights[" + std::to_string(i) + "]";
+		//std::cout << (lightId + ".position") << i << " " << SpotLightPositions[i].x << std::endl;
+		glUniform3f(glGetUniformLocation(shader.ID, (lightId + ".position").c_str()), SpotLightPositions[i].x, SpotLightPositions[i].y, SpotLightPositions[i].z);
+		glUniform3f(glGetUniformLocation(shader.ID, (lightId + ".direction").c_str()), 0.0f, -1.0f, 0.0f);
+
+		glUniform1f(glGetUniformLocation(shader.ID, (lightId + ".cutOff").c_str()), .60f);
+		glUniform1f(glGetUniformLocation(shader.ID, (lightId + ".outerCutOff").c_str()), .95f);
+
+		glUniform1f(glGetUniformLocation(shader.ID, (lightId + ".constant").c_str()), 1.0f);
+		glUniform1f(glGetUniformLocation(shader.ID, (lightId + ".linear").c_str()), 0.09f);
+		glUniform1f(glGetUniformLocation(shader.ID, (lightId + ".quadratic").c_str()), 0.032f);
+
+		glUniform3f(glGetUniformLocation(shader.ID, (lightId + ".ambient").c_str()), 0.01f, 0.01f, 0.01f);
+		glUniform3f(glGetUniformLocation(shader.ID, (lightId + ".diffuse").c_str()), 1.0f, 1.0f, 1.0f);
+		glUniform3f(glGetUniformLocation(shader.ID, (lightId + ".specular").c_str()), .7f, .7f, .7f);
+
+
+	}
+
+	glUniformMatrix4fv(glGetUniformLocation(shader.ID, "model"), 1, GL_FALSE, glm::value_ptr(objectModel));
+	glUniform4f(glGetUniformLocation(shader.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+	//glUniform3f(glGetUniformLocation(shader.ID, "spotLights"), lightPos.x, lightPos.y, lightPos.z);
+	
 	glUniform3f(glGetUniformLocation(shader.ID, "camPos"), camera.Position.x, camera.Position.y, camera.Position.z);
 	camera.Matrix(shader, "camMatrix");
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
