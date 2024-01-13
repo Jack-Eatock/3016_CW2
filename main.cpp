@@ -1,4 +1,5 @@
-#include"Mesh.h";
+#include"Model.h"
+
 
 const unsigned int width = 800, height = 800;
 
@@ -75,26 +76,25 @@ int main()
 	gladLoadGL(); // Sets up GLAD. Which we use to configure and manage OpenGL so that it can support any platform, GPU etc. 
 	glViewport(0, 0, width, height); // viewport of OpenGL in the Window
 
-	Texture textures[]
-	{
-		Texture("planks.png", "diffuse", 0, GL_RGBA, GL_UNSIGNED_BYTE),
-		Texture("planksSpec.png", "specular", 1, GL_RED, GL_UNSIGNED_BYTE)
-	};
-
+	//Texture textures[]
+	//{
+	//	Texture(string("planks.png"), "diffuse", 0),
+	//	Texture(string("planks.png"), "specular", 1)
+	//};
 
 	Shader shaderProgram("default.vert", "default.frag"); // Setting up Shader
-	std::vector <Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
-	std::vector <GLuint> ind(indices, indices + sizeof(indices) / sizeof(GLuint));
-	std::vector <Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
-	Mesh floor(verts, ind, tex);
+	//std::vector <Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
+	//std::vector <GLuint> ind(indices, indices + sizeof(indices) / sizeof(GLuint));
+	//std::vector <Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
+	//Mesh floor(verts, ind, tex);
 
 	// Shader for light cube
 	Shader lightShader("light.vert", "light.frag");
-	// Store mesh data in vectors for the mesh
-	std::vector <Vertex> lightVerts(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(Vertex));
-	std::vector <GLuint> lightInd(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
-	// Create light mesh
-	Mesh light(lightVerts, lightInd, tex);
+	//// Store mesh data in vectors for the mesh
+	//std::vector <Vertex> lightVerts(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(Vertex));
+	//std::vector <GLuint> lightInd(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
+	////// Create light mesh
+	//Mesh light(lightVerts, lightInd, tex);
 
 	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	glm::vec3 lightPos = glm::vec3(0.5f, 0.5f, 0.5f);
@@ -114,6 +114,8 @@ int main()
 	glUniform4f(glGetUniformLocation(shaderProgram.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
 	glUniform3f(glGetUniformLocation(shaderProgram.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
 
+	Model ourModel("Models/BackPack/backpack.obj");
+
 	glEnable(GL_DEPTH_TEST); // Closer objects rendered on top. 
 
 	CamController camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
@@ -127,8 +129,9 @@ int main()
 		camera.Inputs(window);
 		camera.UpdateMatrix(45.0f, .1f, 100.0f);
 
-		floor.Draw(shaderProgram, camera);
-		light.Draw(lightShader, camera);
+	/*	floor.Draw(shaderProgram, camera);
+		light.Draw(lightShader, camera);*/
+		ourModel.Draw(shaderProgram, camera);
 
 		glfwSwapBuffers(window);// Swap the back buffer with the front buffer
 		glfwPollEvents();

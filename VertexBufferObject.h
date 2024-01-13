@@ -5,7 +5,7 @@
 #include<glm/glm.hpp>
 #include<vector>
 
-// Describes a vertex. (A verticy)
+// Describes a vertex. 
 struct Vertex {
 	glm::vec3 position;
 	glm::vec3 normal;

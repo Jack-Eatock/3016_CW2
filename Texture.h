@@ -3,17 +3,21 @@
 
 #include<glad/glad.h>
 #include<stb/stb_image.h>
-
 #include"shaderClass.h"
 
 class Texture
 {
 public:
 	GLuint ID;
-	const char* type;
+	std::string type;
+	std::string fileDir;
 	GLuint unit;
 
-	Texture(const char* image, const char* texType, GLuint slot, GLenum format, GLenum pixelType);
+	Texture() {};
+
+	Texture(std::string image, std::string texType, GLuint slot);
+
+	void SetupTexture(std::string image, std::string texType, GLuint slot);
 
 	// Assigns a texture unit to a texture
 	void texUnit(Shader& shader, const char* uniform, GLuint unit);

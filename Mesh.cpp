@@ -1,27 +1,29 @@
 #include"Mesh.h"
 
+
 Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::vector<Texture>& textures) 
 {
 	Mesh::vertices = vertices;
 	Mesh::indices = indices;
 	Mesh::textures = textures;
 
+	std::cout << "NEW MESH " << vertices.size() << " " << indices.size() << " " << textures.size() << std::endl;
 	VAO.Bind(); // Bind the vertex object
 
 	VertexBufferObject VBO(vertices); // Set up Vertex Buffer reference object
 	EntityBufferObject EBO(indices); // Generates Element Buffer Object and links it to indices
 
-	// Links VBO attributes such as coordinates and colors to VAO
+
+	//// Links VBO attributes such as coordinates and colors to VAO
 	VAO.LinkAttrib(VBO, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)0);
-	VAO.LinkAttrib(VBO, 1, 3, GL_FLOAT, sizeof(Vertex), (void*)(3 * sizeof(float)));
-	VAO.LinkAttrib(VBO, 2, 3, GL_FLOAT, sizeof(Vertex), (void*)(6 * sizeof(float)));
-	VAO.LinkAttrib(VBO, 3, 2, GL_FLOAT, sizeof(Vertex), (void*)(9 * sizeof(float)));
+	VAO.LinkAttrib(VBO, 1, 3, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, color));
+	VAO.LinkAttrib(VBO, 2, 3, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+	VAO.LinkAttrib(VBO, 3, 2, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, texUV));
 
 	// Unbind all to prevent accidentally modifying them
 	VAO.Unbind();
 	VBO.Unbind();
 	EBO.Unbind();
-
 }
 
 void Mesh::Draw(Shader& shader, CamController& camera) 
@@ -46,6 +48,9 @@ void Mesh::Draw(Shader& shader, CamController& camera)
 			num = std::to_string(numSpecular);
 		}
 		
+		std::cout << "HERE " << (type + num).c_str() << std::endl;
+
+
 		textures[i].texUnit(shader, (type + num).c_str(), i);
 		textures[i].Bind();
 	}

@@ -1,10 +1,11 @@
-C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%\COMP3016_CW2\CamController.cpp;C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%\COMP3016_CW2\x64\Debug\CamController.obj
-C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%\COMP3016_CW2\EntityBufferObject.cpp;C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%\COMP3016_CW2\x64\Debug\EntityBufferObject.obj
-C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%\COMP3016_CW2\glad.c;C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%\COMP3016_CW2\x64\Debug\glad.obj
-C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%\COMP3016_CW2\Main.cpp;C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%\COMP3016_CW2\x64\Debug\Main.obj
-C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%\COMP3016_CW2\Mesh.cpp;C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%\COMP3016_CW2\x64\Debug\Mesh.obj
-C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%\COMP3016_CW2\shaderClass.cpp;C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%\COMP3016_CW2\x64\Debug\shaderClass.obj
-C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%\COMP3016_CW2\stb.cpp;C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%\COMP3016_CW2\x64\Debug\stb.obj
-C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%\COMP3016_CW2\Texture.cpp;C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%\COMP3016_CW2\x64\Debug\Texture.obj
-C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%\COMP3016_CW2\VertexArrayObject.cpp;C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%\COMP3016_CW2\x64\Debug\VertexArrayObject.obj
-C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%\COMP3016_CW2\VertexBufferObject.cpp;C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%\COMP3016_CW2\x64\Debug\VertexBufferObject.obj
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\CamController.cpp;C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\x64\Debug\CamController.obj
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\EntityBufferObject.cpp;C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\x64\Debug\EntityBufferObject.obj
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\glad.c;C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\x64\Debug\glad.obj
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp;C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\x64\Debug\Main.obj
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Mesh.cpp;C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\x64\Debug\Mesh.obj
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Model.cpp;C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\x64\Debug\Model.obj
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\shaderClass.cpp;C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\x64\Debug\shaderClass.obj
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\stb.cpp;C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\x64\Debug\stb.obj
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Texture.cpp;C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\x64\Debug\Texture.obj
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\VertexArrayObject.cpp;C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\x64\Debug\VertexArrayObject.obj
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\VertexBufferObject.cpp;C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\x64\Debug\VertexBufferObject.obj
