@@ -22,6 +22,7 @@ struct PointLight {
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
+	float intensity;
 };
 
 struct SpotLight {
@@ -29,6 +30,7 @@ struct SpotLight {
     vec3 direction;
     float cutOff;
     float outerCutOff;
+
   
     float constant;
     float linear;
@@ -67,7 +69,7 @@ vec4 pointLight()
 	float inten = 1.0f; // / (a * dist * dist + b * dist + 1.0f);
 
 	// ambient lighting
-	float ambient = 0.20f;
+	float ambient = 0.10f;
 
 	// diffuse lighting
 	vec3 normal = normalize(Normal);
@@ -87,7 +89,7 @@ vec4 pointLight()
 vec4 directionLight()
 {
 	// ambient lighting
-	float ambient = 0.8f;
+	float ambient = 0.15f;
 
 	// diffuse lighting
 	vec3 normal = normalize(Normal);
@@ -150,9 +152,10 @@ vec4 CalcPointLight(PointLight pointLight, vec3 viewDirection, vec3 normal )
     vec3 ambient = pointLight.ambient * vec3(texture(diffuse0, texCoord));
     vec3 diffuse = pointLight.diffuse * diff * vec3(texture(diffuse0, texCoord));
     vec3 specular = pointLight.specular * spec * vec3(texture(specular0, texCoord));
-    ambient *= attenuation;
-    diffuse *= attenuation;
-    specular *= attenuation;
+
+    ambient *= attenuation * pointLight.intensity;
+    diffuse *= attenuation * pointLight.intensity;
+    specular *= attenuation * pointLight.intensity;
     return  vec4((ambient + diffuse + specular),1.0f);
 }
 
@@ -199,7 +202,7 @@ void main()
 
 	//for(int i = 0; i < NR_SPOT_LIGHTS; i++)
 		//result += CalcSpotLight(spotLights[i], viewDirection, normal);    
-	
+ 
 	for(int i = 0; i < NR_POINT_LIGHTS; i++)
 		result += CalcPointLight(pointLights[i], viewDirection, normal);    
 	

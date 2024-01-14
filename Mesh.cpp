@@ -92,8 +92,9 @@ void Mesh::Draw(Shader& shader, CamController& camera, glm::vec3 objectPos, glm:
 		glUniform3f(glGetUniformLocation(shader.ID, (lightId + ".position").c_str()), pointLightPositions[i].x, pointLightPositions[i].y, pointLightPositions[i].z);
 
 		glUniform1f(glGetUniformLocation(shader.ID, (lightId + ".constant").c_str()), 1.0f);
-		glUniform1f(glGetUniformLocation(shader.ID, (lightId + ".linear").c_str()), 0.09f);
-		glUniform1f(glGetUniformLocation(shader.ID, (lightId + ".quadratic").c_str()), 0.032f);
+		glUniform1f(glGetUniformLocation(shader.ID, (lightId + ".linear").c_str()), 0.04f);
+		glUniform1f(glGetUniformLocation(shader.ID, (lightId + ".quadratic").c_str()), 0.016f);
+		glUniform1f(glGetUniformLocation(shader.ID, (lightId + ".intensity").c_str()), 5.0f);
 
 		glUniform3f(glGetUniformLocation(shader.ID, (lightId + ".ambient").c_str()), 0.01f, 0.01f, 0.01f);
 		glUniform3f(glGetUniformLocation(shader.ID, (lightId + ".diffuse").c_str()), 1.0f, 1.0f, 1.0f);

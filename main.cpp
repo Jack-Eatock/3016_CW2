@@ -2,7 +2,7 @@
 #include"SkyBox.h"
 #include "ProceduralGenerator.h"
 
-const unsigned int width = 800, height = 800;
+const unsigned int width = 1920, height = 1080;
 
 Vertex lightVertices[] =
 { //     COORDINATES     //
@@ -68,7 +68,7 @@ int main()
 
 	// positions of the point lights
 	glm::vec3 SpotLightPositions[] = {
-		glm::vec3(20.0f, 1.0f, .5f),
+		glm::vec3(8.0f, -8.0f, -55.0f),
 		glm::vec3(1.0f,  .3f, -.5f),
 		glm::vec3(4.0f,  0.0f,22.0f),
 		glm::vec3(1.0f, .3f, 1.0f)
@@ -76,7 +76,7 @@ int main()
 
 	// positions of the point lights
 	glm::vec3 PointLightPositions[] = {
-		glm::vec3(20.0f, 1.0f, .5f),
+		glm::vec3(8.0f, -8.0f, -55.0f),
 		glm::vec3(1.0f,  .3f, -.5f),
 		glm::vec3(4.0f,  0.0f,22.0f),
 		glm::vec3(1.0f, .3f, 1.0f)
@@ -100,7 +100,7 @@ int main()
 	});
 
 	// Procedural Generation 2 - Astroid Belt
-	ProceduralGenerator pc2(glm::vec3(-100.0f, -100.0f, -90.0f), 30, 3.0f, .68f, rand() % (100), vector<string>{
+	ProceduralGenerator pc2(glm::vec3(-110.0f, -100.0f, -90.0f), 30, 3.0f, .68f, rand() % (100), vector<string>{
 			"Models/Rocks/Rock1/Rock1.obj",
 			"Models/Rocks/Rock2/Rock1.obj",
 			"Models/Rocks/Rock3/Rock1.obj",
@@ -125,7 +125,6 @@ int main()
 	Mesh light3(lightVerts, lightInd, tex);
 
 	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-	//glm::vec3 lightPos = glm::vec3(1.0f, 2.0f, 1.0f);
 	glm::mat4 testModel;
 
 	// SkyBox
@@ -137,15 +136,20 @@ int main()
 	lightShader.Activate();
 	shaderProgram.Activate();
 
-	Model ourModel3("Models/BackPack/backpack.obj", glm::vec3(50.0f, 1.0f, 3.0f), true);
 	Model MainSpaceShipDestroyed("Models/MainDestroyedShip/SpaceshipDestroyed.gltf" ,glm::vec3(10.0f, -8.0f, -60.0f));
-	
 	Model DebrisCircle("Models/DebrisCircle/SpaceshipDestroyed.obj", glm::vec3(8.0f, -8.0f, -55.0f));
+	Model SmallShip1("Models/SmallShip/SmallShip.obj", glm::vec3(6.0f, -7.0f, -52.0f));
+	//Model SmallShip2("Models/SmallShip/SmallShip.obj", glm::vec3(2.0f, -7.0f, -49.0f));
+	Model debris("Models/Debris1/SpaceshipDestroyed.obj"  ,glm::vec3(-35.0f, 1.0f, 3.0f));
+	
 	DebrisCircle.rotationZ = 12.0f;
 	MainSpaceShipDestroyed.rotationZ = 12.0f;
 	MainSpaceShipDestroyed.rotationY = 45.0f;
-	Model ourModel2("Models/New Folder(2)/Fighter_01.gltf" ,glm::vec3(-10.0f, 1.0f, 3.0f));
-	Model debris("Models/Debris1/SpaceshipDestroyed.obj"  ,glm::vec3(-35.0f, 1.0f, 3.0f));
+
+	SmallShip1.scale = 0.30f;
+	SmallShip1.rotationY = -45.0f;
+	light.rotationY = 45.0f;
+	//SmallShip2.scale = 0.30f;
 
 	glEnable(GL_DEPTH_TEST); // Closer objects rendered on top. 
 
@@ -156,6 +160,10 @@ int main()
 	float verySlowRotation = 0.0f;
 	double prevTime = glfwGetTime();
 
+	bool movingRight = true;
+	float timeStarted = 0.0f;
+	float duration = 7;
+
 	// Game loop
 	while (!glfwWindowShouldClose(window))
 	{
@@ -165,7 +173,6 @@ int main()
 		camera.Inputs(window);
 		camera.UpdateMatrix(45.0f, .1f, 200.0f);
 
-
 		double crntTime = glfwGetTime();
 		if (crntTime - prevTime >= 1 / 60) {
 			rotation += .050f;
@@ -173,19 +180,49 @@ int main()
 			prevTime = crntTime;
 		}
 
-		//light.Draw(lightShader, camera, SpotLightPositions[0], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
-		//light1.Draw(lightShader, camera, SpotLightPositions[1], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
-		//light2.Draw(lightShader, camera, SpotLightPositions[2], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
-		//light3.Draw(lightShader, camera, SpotLightPositions[3], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
+		// Small Ship 1
+		if (movingRight) 
+		{
+			// Move right to left
+			SmallShip1.position = SmallShip1.position + glm::vec3(0.015f, 0.00f, 0.015f);
+			//SmallShip2.position = SmallShip2.position + glm::vec3(.01f, 0.0f, 0.0f);
+			if (crntTime - timeStarted > duration) 
+			{
+				timeStarted = crntTime;
+				movingRight = false;
+			}
+		}
+		else
+		{
+			// Move right to left
+			SmallShip1.position = SmallShip1.position - glm::vec3(0.015f, 0.00f, 0.015f);
+			//SmallShip2.position = SmallShip2.position - glm::vec3(.01f, 0.0f, 0.0f);
+
+			if (crntTime - timeStarted > duration)
+			{
+				timeStarted = crntTime;
+				movingRight = true;
+			}
+		}
+
+		
+
+		PointLightPositions[0] = SmallShip1.position + glm::vec3(0.17f,0.35f,-0.2);
+		light.scale = .5f;
+		light.Draw(lightShader, camera, PointLightPositions[0], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
+		light1.Draw(lightShader, camera, SpotLightPositions[1], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
+		light2.Draw(lightShader, camera, SpotLightPositions[2], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
+		light3.Draw(lightShader, camera, SpotLightPositions[3], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
 		
 		
+		
+
 		MainSpaceShipDestroyed.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
 		DebrisCircle.rotationY = slowerRotation;
 		DebrisCircle.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
-
-		//ourModel2.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
-		//ourModel3.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
-
+		SmallShip1.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
+		//SmallShip2.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
+		
 		//debris.rotationY = rotation;
 		//debris.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
 
