@@ -1,17 +1,25 @@
 #include "Model.h"
 
 
-void Model::Draw(Shader& shader, CamController& camera, glm::vec3 objectPos, glm::mat4 objectModel, glm::vec4 lightColor, glm::vec3 SpotLightPositions[], glm::vec3 pointLightPositions[])
+void Model::Draw(Shader& shader, CamController& camera, glm::vec4 lightColor, glm::vec3 SpotLightPositions[], glm::vec3 pointLightPositions[])
 {
-    for (unsigned int i = 0; i < meshes.size(); i++)
-        meshes[i].Draw(shader, camera, objectPos, objectModel, lightColor, SpotLightPositions, pointLightPositions);
+    for (unsigned int i = 0; i < meshes.size(); i++) 
+    {
+        meshes[i].rotationX = rotationX;
+        meshes[i].rotationY = rotationY;
+        meshes[i].rotationZ = rotationZ;
+        meshes[i].scale = scale;
+        meshes[i].Draw(shader, camera, position, model, lightColor, SpotLightPositions, pointLightPositions);
+    }
 }
 
-void Model::loadModel(string path)
+void Model::loadModel(string path, glm::vec3 objectPos, float objectScale, bool flip )
 {
+    model = glm::mat4(1.0f);
+    position = objectPos;
+
     Assimp::Importer import;
     const aiScene * scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs); // Reads but also ensures the model is all triangles.
-    std::cout << "1 Here " << std::endl;
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
     {
         cout << "ERROR::ASSIMP::" << import.GetErrorString() << endl;
@@ -105,7 +113,6 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
     return Mesh(vertices, indices, textures);
 }
 
-
 vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName)
 {
     vector<Texture> textures;
@@ -131,7 +138,7 @@ vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type,
         }
         if (!skip) 
         {
-            Texture texture(filename, typeName.c_str(), numTextures);
+            Texture texture(filename, typeName.c_str(), numTextures, flipTexture);
             numTextures++;
             textures.push_back(texture);
             textures_loaded.push_back(texture); 

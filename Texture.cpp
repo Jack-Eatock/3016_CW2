@@ -1,11 +1,11 @@
 #include"Texture.h"
 
-Texture::Texture(std::string image, std::string texType, GLuint slot)
+Texture::Texture(std::string image, std::string texType, GLuint slot, bool flip)
 {
-	SetupTexture(image, texType, slot);
+	SetupTexture(image, texType, slot, flip);
 }
 
-void Texture::SetupTexture(std::string image, std::string texType, GLuint slot)
+void Texture::SetupTexture(std::string image, std::string texType, GLuint slot, bool flip)
 {
 	// Assigns the type of the texture ot the texture object
 	type = texType;
@@ -15,11 +15,10 @@ void Texture::SetupTexture(std::string image, std::string texType, GLuint slot)
 
 	// The width and height is obtained from the image itself.
 	int widthImg, heightImg, numColCh;
-	stbi_set_flip_vertically_on_load(true); // STBI has inverse axis to OpenGl so flip the image.
+	stbi_set_flip_vertically_on_load(flip); // STBI has inverse axis to OpenGl so flip the image.
 	unsigned char* bytes = stbi_load(image.c_str(), &widthImg, &heightImg, &numColCh, 0);  // Convert the image into bytes
 	if (bytes)
 	{
-		std::cout << "HERE" << numColCh << std::endl;
 
 		GLenum format = GL_RGBA;
 		if (numColCh == 1)

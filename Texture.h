@@ -15,9 +15,9 @@ public:
 
 	Texture() {};
 
-	Texture(std::string image, std::string texType, GLuint slot);
+	Texture(std::string image, std::string texType, GLuint slot, bool flip = false);
 
-	void SetupTexture(std::string image, std::string texType, GLuint slot);
+	void SetupTexture(std::string image, std::string texType, GLuint slot, bool flip = false);
 
 	// Assigns a texture unit to a texture
 	void texUnit(Shader& shader, const char* uniform, GLuint unit);

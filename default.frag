@@ -87,7 +87,7 @@ vec4 pointLight()
 vec4 directionLight()
 {
 	// ambient lighting
-	float ambient = 0.20f;
+	float ambient = 0.8f;
 
 	// diffuse lighting
 	vec3 normal = normalize(Normal);
@@ -95,7 +95,7 @@ vec4 directionLight()
 	float diffuse = max(dot(normal, lightDirection), 0.0f);
 
 	// specular lighting - (BlinnPhong Shading)
-	float specularLight = 0.50f;
+	float specularLight = 0.2f;
 	vec3 viewDirection = normalize(camPos - crntPos);
 	vec3 reflectionDirection = reflect(-lightDirection, normal);
 	float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
@@ -194,6 +194,8 @@ void main()
 	vec3 normal = normalize(Normal);
 
 	vec4 result = vec4(0.0f, 0.0f, 0.0f, 0.0f);
+
+	result += directionLight();
 
 	//for(int i = 0; i < NR_SPOT_LIGHTS; i++)
 		//result += CalcSpotLight(spotLights[i], viewDirection, normal);    

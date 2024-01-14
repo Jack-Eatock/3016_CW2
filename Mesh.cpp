@@ -28,6 +28,8 @@ Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::vec
 
 void Mesh::Draw(Shader& shader, CamController& camera, glm::vec3 objectPos, glm::mat4 objectModel, glm::vec4 lightColor, glm::vec3 SpotLightPositions[], glm::vec3 pointLightPositions[])
 {
+	position = objectPos;
+
 	shader.Activate();
 	VAO.Bind();
 
@@ -56,7 +58,11 @@ void Mesh::Draw(Shader& shader, CamController& camera, glm::vec3 objectPos, glm:
 	}
 
 	// Transforms
-	objectModel = glm::translate(objectModel, objectPos);
+	objectModel = glm::translate(objectModel, position); //position = 0,0,0
+	objectModel = glm::rotate(objectModel, glm::radians(rotationX), glm::vec3(1, 0, 0));//rotation x = 0.0 degrees
+	objectModel = glm::rotate(objectModel, glm::radians(rotationY), glm::vec3(0, 1, 0));//rotation y = 0.0 degrees
+	objectModel = glm::rotate(objectModel, glm::radians(rotationZ), glm::vec3(0, 0, 1));//rotation z = 0.0 degrees
+	objectModel = glm::scale(objectModel, glm::vec3(scale,scale,scale));//scale = 1,1,1
 
 	// Spot Lights
   	for (int i = 0; i <4; i++)

@@ -117,7 +117,7 @@ int main()
 
 	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	//glm::vec3 lightPos = glm::vec3(1.0f, 2.0f, 1.0f);
-
+	glm::mat4 testModel;
 
 	// SkyBox
 	Shader skyboxShader("Skybox.vert", "Skybox.frag");
@@ -128,12 +128,24 @@ int main()
 	lightShader.Activate();
 	shaderProgram.Activate();
 
-	Model ourModel("Models/BackPack/backpack.obj");
-	//Model ourModel("Models/New Folder(1)/Test.gltf");
+	Model ourModel3("Models/BackPack/backpack.obj", glm::vec3(50.0f, 1.0f, 3.0f), true);
+	Model MainSpaceShip("Models/SpaceShip/Spaceship.gltf" ,glm::vec3(2.0f, -8.0f, -55.0f));
+	
+	Model DebrisCircle("Models/DebrisCircle/SpaceshipDestroyed.obj", glm::vec3(8.0f, -8.0f, -55.0f));
+	DebrisCircle.rotationZ = 12.0f;
+	MainSpaceShip.rotationZ = 12.0f;
+	MainSpaceShip.rotationY = 45.0f;
+	Model ourModel2("Models/New Folder(2)/Fighter_01.gltf" ,glm::vec3(-10.0f, 1.0f, 3.0f));
+	Model debris("Models/Debris1/SpaceshipDestroyed.obj"  ,glm::vec3(-35.0f, 1.0f, 3.0f));
 
 	glEnable(GL_DEPTH_TEST); // Closer objects rendered on top. 
 
 	CamController camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
+
+	float rotation = 0.0f;
+	float slowerRotation = 0.0f;
+	float verySlowRotation = 0.0f;
+	double prevTime = glfwGetTime();
 
 	// Game loop
 	while (!glfwWindowShouldClose(window))
@@ -142,15 +154,36 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear back buffer
 		
 		camera.Inputs(window);
-		camera.UpdateMatrix(45.0f, .1f, 100.0f);
+		camera.UpdateMatrix(45.0f, .1f, 200.0f);
 
-		floor.Draw(shaderProgram, camera,     glm::vec3(0.5f, .0f, 1.0f),     glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
-		light.Draw(lightShader, camera, SpotLightPositions[0], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
-		light1.Draw(lightShader, camera, SpotLightPositions[1], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
-		light2.Draw(lightShader, camera, SpotLightPositions[2], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
-		light3.Draw(lightShader, camera, SpotLightPositions[3], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
-		ourModel.Draw(shaderProgram, camera,  glm::vec3(3.0f, 1.0f, 3.0f),    glm::mat4(.25f), lightColor, SpotLightPositions, PointLightPositions);
-		//skybox.Draw(skyboxShader, camera);
+
+		double crntTime = glfwGetTime();
+		if (crntTime - prevTime >= 1 / 60) {
+			rotation += .050f;
+			slowerRotation += .030;
+			prevTime = crntTime;
+		}
+
+		//floor.Draw(shaderProgram, camera,     glm::vec3(0.5f, .0f, 1.0f),     glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
+		//light.Draw(lightShader, camera, SpotLightPositions[0], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
+		//light1.Draw(lightShader, camera, SpotLightPositions[1], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
+		//light2.Draw(lightShader, camera, SpotLightPositions[2], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
+		//light3.Draw(lightShader, camera, SpotLightPositions[3], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
+		
+		//floor.rotationY = rotation;
+		//floor.Draw(shaderProgram, camera, glm::vec3(0.5f, .0f, 15.0f), glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
+		
+		MainSpaceShip.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
+		DebrisCircle.rotationY = slowerRotation;
+		DebrisCircle.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
+
+		ourModel2.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
+		ourModel3.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
+		
+
+		debris.rotationY = rotation;
+		debris.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
+
 		skybox.Draw(skyboxShader, camera, width, height);
 	
 		glfwSwapBuffers(window);// Swap the back buffer with the front buffer

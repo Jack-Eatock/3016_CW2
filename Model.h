@@ -26,11 +26,14 @@ using namespace std;
 class Model
 {
 public:
-    Model(string image)
+    Model(string image, glm::vec3 objectPos, bool flip = false)
     {
-        loadModel(image.c_str());
+        flipTexture = flip;
+        loadModel(image.c_str(), objectPos, scale, flip);
     }
-    void Draw(Shader& shader, CamController& camera, glm::vec3 objectPos, glm::mat4 objectModel, glm::vec4 lightColor, glm::vec3 SpotLightPositions[], glm::vec3 pointLightPositions[]);
+    void Draw(Shader& shader, CamController& camera, glm::vec4 lightColor, glm::vec3 SpotLightPositions[], glm::vec3 pointLightPositions[]);
+    glm::vec3 position = glm::vec3(1.0f);
+    float rotationX, rotationY, rotationZ, scale = 1.0f;
 private:
     // model data
     vector<Mesh> meshes;
@@ -38,10 +41,13 @@ private:
     string directory;
     int numTextures;
 
-    void loadModel(string path);
+    glm::mat4 model;
+
+
+    bool flipTexture = false;
+    void loadModel(string path, glm::vec3 objectPos, float objectScale, bool flip = false);
     void processNode(aiNode* node, const aiScene* scene);
     Mesh processMesh(aiMesh* mesh, const aiScene* scene);
-    
     vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
 };
 
