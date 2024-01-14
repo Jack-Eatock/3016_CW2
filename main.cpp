@@ -34,25 +34,24 @@ int main()
 	gladLoadGL(); // Sets up GLAD. Which we use to configure and manage OpenGL so that it can support any platform, GPU etc. 
 	glViewport(0, 0, width, height); // viewport of OpenGL in the Window
 
-
 	// Play Music
 	AudioManager::PlayMusic("AudioFiles/230-days-of-winter-154438.mp3");
 
+	// positions, colours and intensity for point lights.
+	LightSettings pointLights[] =
+	{
+		LightSettings(glm::vec3(8.0f, -8.0f, -55.0f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), 5.0f),
+		LightSettings(glm::vec3(12.76f, -8.3f, -52.0f), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), 1.0f),
+		LightSettings(glm::vec3(-110.0f, -100.0f, -90.0f), glm::vec4(1.0f, 0.5f, .5f, 1.0f), 5.0f),
+		LightSettings(glm::vec3(100.0f, -60.0f, -70.0f), glm::vec4(0.4f, 0.0f, 1.0f, 1.0f), 5.0f)
+	};
 
-	// positions of the point lights
+	// positions of the Spot Lights - Not currently being used, prefered point ligths (Disabled in shader)
 	glm::vec3 SpotLightPositions[] = {
 		glm::vec3(8.0f, -8.0f, -55.0f),
 		glm::vec3(1.0f,  .3f, -.5f),
 		glm::vec3(-110.0f, -100.0f, -90.0f),
 		glm::vec3(1.0f, .3f, 1.0f)
-	};
-
-	// positions of the point lights
-	glm::vec3 PointLightPositions[] = {
-		glm::vec3(8.0f, -8.0f, -55.0f),
-		glm::vec3(12.0f, -10.0f, -56.0f),
-		glm::vec3(-110.0f, -100.0f, -90.0f),
-		glm::vec3(100.0f, -60.0f, -70.0f)
 	};
 
 	Shader shaderProgram("default.vert", "default.frag"); // Setting up Shader
@@ -82,7 +81,6 @@ int main()
 			"Models/Rocks/Rock4/Rock1.obj"
 	});
 
-
 	//// Create light mesh
 	Light light; Light light1; Light light2; Light light3;
 	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -99,7 +97,7 @@ int main()
 	Model MainSpaceShipDestroyed("Models/MainDestroyedShip/SpaceshipDestroyed.gltf" ,glm::vec3(10.0f, -8.0f, -60.0f));
 	Model DebrisCircle("Models/DebrisCircle/SpaceshipDestroyed.obj", glm::vec3(8.0f, -8.0f, -55.0f));
 	Model SmallShip1("Models/SmallShip/SmallShip.obj", glm::vec3(6.0f, -7.0f, -52.0f));
-	Model debris("Models/Debris1/SpaceshipDestroyed.obj"  ,glm::vec3(-35.0f, 1.0f, 3.0f));
+	Model Signature("Models/Signature/Signature.obj", glm::vec3(13.2f, -8.25f, -52.0f));
 	
 	DebrisCircle.rotationZ = 12.0f;
 	MainSpaceShipDestroyed.rotationZ = 12.0f;
@@ -109,20 +107,23 @@ int main()
 	SmallShip1.rotationY = -45.0f;
 	light.mesh.rotationY = 45.0f;
 	light.mesh.scale = .5f;
-	light1.mesh.rotationY = 45.0f;
+	//light1.mesh.rotationY = 45.0f;
+	//light1.mesh.rotationZ = 12.0f;
 
 	glEnable(GL_DEPTH_TEST); // Closer objects rendered on top. 
 
 	CamController camera(width, height, glm::vec3(8.0f,20.0f, 10.0f));
 
-	float rotation = 0.0f;
 	float slowerRotation = 0.0f;
-	float verySlowRotation = 0.0f;
 	double prevTime = glfwGetTime();
 
 	bool movingRight = true;
 	float timeStarted = 0.0f;
 	float duration = 7;
+
+	bool flashing = true;
+	float flashingTimeStarted = 0.0f;
+	float flashingDuration = 1;
 
 	// Game loop
 	while (!glfwWindowShouldClose(window))
@@ -133,7 +134,6 @@ int main()
 		// Time
 		double crntTime = glfwGetTime();
 		if (crntTime - prevTime >= 1 / 60) {
-			rotation += .050f;
 			slowerRotation += .030;
 			prevTime = crntTime;
 		}
@@ -147,7 +147,6 @@ int main()
 		{
 			// Move right to left
 			SmallShip1.position = SmallShip1.position + glm::vec3(0.015f, 0.00f, 0.015f);
-			//SmallShip2.position = SmallShip2.position + glm::vec3(.01f, 0.0f, 0.0f);
 			if (crntTime - timeStarted > duration) 
 			{
 				timeStarted = crntTime;
@@ -158,8 +157,6 @@ int main()
 		{
 			// Move right to left
 			SmallShip1.position = SmallShip1.position - glm::vec3(0.015f, 0.00f, 0.015f);
-			//SmallShip2.position = SmallShip2.position - glm::vec3(.01f, 0.0f, 0.0f);
-
 			if (crntTime - timeStarted > duration)
 			{
 				timeStarted = crntTime;
@@ -167,23 +164,52 @@ int main()
 			}
 		}
 
+		if (flashing)
+		{
+			// Brighten
+			pointLights[1].intensity += .01f;
+			if (pointLights[1].intensity >= 1.0f)
+				pointLights[1].intensity = 1.0f;
+
+			if (crntTime - flashingTimeStarted > flashingDuration)
+			{
+				flashingTimeStarted = crntTime;
+				flashing = false;
+			}
+		}
+		else
+		{
+			// Dim
+			pointLights[1].intensity -= .01;
+			if (pointLights[1].intensity <= 0)
+				pointLights[1].intensity = 0;
+
+			if (crntTime - flashingTimeStarted > flashingDuration)
+			{
+				flashingTimeStarted = crntTime;
+				flashing = true;
+			}
+		}
+
+
 		// Ligthing
-		PointLightPositions[0] = SmallShip1.position + glm::vec3(0.17f,0.35f,-0.2);
-		light.mesh.Draw(lightShader, camera, PointLightPositions[0], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
-		light1.mesh.Draw(lightShader, camera, PointLightPositions[1], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
-		light2.mesh.Draw(lightShader, camera, PointLightPositions[2], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
-		light3.mesh.Draw(lightShader, camera, PointLightPositions[3], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
+		pointLights[0].position = SmallShip1.position + glm::vec3(0.17f,0.35f,-0.2);
+		light.mesh.Draw(lightShader, camera, pointLights[0].position, glm::mat4(1.0f), lightColor, SpotLightPositions, pointLights);
+		//light1.mesh.Draw(lightShader, camera, pointLights[1].position, glm::mat4(1.0f), lightColor, SpotLightPositions, pointLights);
+		light2.mesh.Draw(lightShader, camera, pointLights[2].position, glm::mat4(1.0f), lightColor, SpotLightPositions, pointLights);
+		light3.mesh.Draw(lightShader, camera, pointLights[3].position, glm::mat4(1.0f), lightColor, SpotLightPositions, pointLights);
 
 		// Models
-		MainSpaceShipDestroyed.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
+		MainSpaceShipDestroyed.Draw(shaderProgram, camera, lightColor, SpotLightPositions, pointLights);
 		DebrisCircle.rotationY = slowerRotation;
-		DebrisCircle.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
-		SmallShip1.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
+		DebrisCircle.Draw(shaderProgram, camera, lightColor, SpotLightPositions, pointLights);
+		SmallShip1.Draw(shaderProgram, camera, lightColor, SpotLightPositions, pointLights);
+		Signature.Draw(shaderProgram, camera, lightColor, SpotLightPositions, pointLights);
 
 		// Procedural Meshes
-		pc.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
-		pc2.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
-		pc3.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
+		pc.Draw(shaderProgram, camera, lightColor, SpotLightPositions, pointLights);
+		pc2.Draw(shaderProgram, camera, lightColor, SpotLightPositions, pointLights);
+		pc3.Draw(shaderProgram, camera, lightColor, SpotLightPositions, pointLights);
 
 		// Skybox
 		skybox.Draw(skyboxShader, camera, width, height);

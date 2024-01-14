@@ -23,6 +23,7 @@ struct PointLight {
     vec3 diffuse;
     vec3 specular;
 	float intensity;
+	vec4 color;
 };
 
 struct SpotLight {
@@ -156,7 +157,7 @@ vec4 CalcPointLight(PointLight pointLight, vec3 viewDirection, vec3 normal )
     ambient *= attenuation * pointLight.intensity;
     diffuse *= attenuation * pointLight.intensity;
     specular *= attenuation * pointLight.intensity;
-    return  vec4((ambient + diffuse + specular),1.0f);
+    return  vec4((ambient + diffuse + specular),1.0f) * pointLight.color;
 }
 
 vec4 CalcSpotLight(SpotLight spotLight, vec3 viewDirection, vec3 normal)

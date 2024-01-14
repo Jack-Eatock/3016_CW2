@@ -31,7 +31,7 @@ public:
         flipTexture = flip;
         loadModel(image.c_str(), objectPos, scale, flip);
     }
-    void Draw(Shader& shader, CamController& camera, glm::vec4 lightColor, glm::vec3 SpotLightPositions[], glm::vec3 pointLightPositions[]);
+    void Draw(Shader& shader, CamController& camera, glm::vec4 lightColor, glm::vec3 SpotLightPositions[], LightSettings pointLights[]);
     glm::vec3 position = glm::vec3(1.0f);
     float rotationX, rotationY, rotationZ, scale = 1.0f;
 private:

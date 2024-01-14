@@ -26,7 +26,7 @@ Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::vec
 	EBO.Unbind();
 }
 
-void Mesh::Draw(Shader& shader, CamController& camera, glm::vec3 objectPos, glm::mat4 objectModel, glm::vec4 lightColor, glm::vec3 SpotLightPositions[], glm::vec3 pointLightPositions[])
+void Mesh::Draw(Shader& shader, CamController& camera, glm::vec3 objectPos, glm::mat4 objectModel, glm::vec4 lightColor, glm::vec3 SpotLightPositions[], LightSettings pointLights[])
 {
 	position = objectPos;
 
@@ -89,16 +89,18 @@ void Mesh::Draw(Shader& shader, CamController& camera, glm::vec3 objectPos, glm:
 	{
 		std::string lightId = "pointLights[" + std::to_string(i) + "]";
 		//std::cout << (lightId + ".position") << i << " " << SpotLightPositions[i].x << std::endl;
-		glUniform3f(glGetUniformLocation(shader.ID, (lightId + ".position").c_str()), pointLightPositions[i].x, pointLightPositions[i].y, pointLightPositions[i].z);
+		glUniform3f(glGetUniformLocation(shader.ID, (lightId + ".position").c_str()), pointLights[i].position.x, pointLights[i].position.y, pointLights[i].position.z);
 
 		glUniform1f(glGetUniformLocation(shader.ID, (lightId + ".constant").c_str()), 1.0f);
 		glUniform1f(glGetUniformLocation(shader.ID, (lightId + ".linear").c_str()), 0.04f);
 		glUniform1f(glGetUniformLocation(shader.ID, (lightId + ".quadratic").c_str()), 0.016f);
-		glUniform1f(glGetUniformLocation(shader.ID, (lightId + ".intensity").c_str()), 5.0f);
+		glUniform1f(glGetUniformLocation(shader.ID, (lightId + ".intensity").c_str()), pointLights[i].intensity);
 
 		glUniform3f(glGetUniformLocation(shader.ID, (lightId + ".ambient").c_str()), 0.01f, 0.01f, 0.01f);
 		glUniform3f(glGetUniformLocation(shader.ID, (lightId + ".diffuse").c_str()), 1.0f, 1.0f, 1.0f);
 		glUniform3f(glGetUniformLocation(shader.ID, (lightId + ".specular").c_str()), .7f, .7f, .7f);
+
+		glUniform4f(glGetUniformLocation(shader.ID, (lightId + ".color").c_str()), pointLights[i].color.x , pointLights[i].color.y, pointLights[i].color.z, pointLights[i].color.w);
 	}
 
 	glUniformMatrix4fv(glGetUniformLocation(shader.ID, "model"), 1, GL_FALSE, glm::value_ptr(objectModel));

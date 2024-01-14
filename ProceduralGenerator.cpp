@@ -58,7 +58,7 @@ ProceduralGenerator::ProceduralGenerator(glm::vec3 position, int size, float spa
 	std::cout << "[Procedural Gen] - Number Generated: " << num << std::endl;
 }
 
-void ProceduralGenerator::Draw(Shader& shader, CamController& camera, glm::vec4 lightColor, glm::vec3 SpotLightPositions[], glm::vec3 pointLightPositions[])
+void ProceduralGenerator::Draw(Shader& shader, CamController& camera, glm::vec4 lightColor, glm::vec3 SpotLightPositions[], LightSettings pointLights[])
 {
 	if (models.size() <= 0)
 	{
@@ -70,7 +70,7 @@ void ProceduralGenerator::Draw(Shader& shader, CamController& camera, glm::vec4 
 	for (int i = 0; i < models.size(); i++)
 	{
 		
-		models[i].Draw(shader, camera, lightColor, SpotLightPositions, pointLightPositions);
+		models[i].Draw(shader, camera, lightColor, SpotLightPositions, pointLights);
 	}
 
 }

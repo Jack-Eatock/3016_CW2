@@ -1,7 +1,7 @@
 #include "Model.h"
 
 
-void Model::Draw(Shader& shader, CamController& camera, glm::vec4 lightColor, glm::vec3 SpotLightPositions[], glm::vec3 pointLightPositions[])
+void Model::Draw(Shader& shader, CamController& camera, glm::vec4 lightColor, glm::vec3 SpotLightPositions[], LightSettings pointLights[])
 {
     for (unsigned int i = 0; i < meshes.size(); i++) 
     {
@@ -9,7 +9,7 @@ void Model::Draw(Shader& shader, CamController& camera, glm::vec4 lightColor, gl
         meshes[i].rotationY = rotationY;
         meshes[i].rotationZ = rotationZ;
         meshes[i].scale = scale;
-        meshes[i].Draw(shader, camera, position, model, lightColor, SpotLightPositions, pointLightPositions);
+        meshes[i].Draw(shader, camera, position, model, lightColor, SpotLightPositions, pointLights);
     }
 }
 

@@ -29,6 +29,8 @@ GLuint lightIndices[] =
 	4, 6, 7
 };
 
+
+
 Light::Light()
 {
 	// Store mesh data in vectors for the mesh
