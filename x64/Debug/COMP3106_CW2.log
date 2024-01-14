@@ -1,9 +1,10 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (COMP3106_CW2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   Main.cpp
-C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(56,83): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(63,86): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(71,81): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(132,26): warning C4305: '+=': truncation from 'double' to 'float'
-C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(144,19): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(68,83): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(75,86): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(83,81): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(144,26): warning C4305: '+=': truncation from 'double' to 'float'
 C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(156,19): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(168,19): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+glfw3.lib(window.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(window.obj)' or at ''; linking object as if no debug info
   COMP3106_CW2.vcxproj -> C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\x64\Debug\COMP3016_CW2.exe

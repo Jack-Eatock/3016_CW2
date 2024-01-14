@@ -2,6 +2,8 @@
 #include"SkyBox.h"
 #include "ProceduralGenerator.h"
 #include "Light.h"
+#include<irrKlang.h>
+using namespace irrklang;
 
 const unsigned int width = 1920, height = 1080;
 
@@ -32,6 +34,16 @@ int main()
 
 	gladLoadGL(); // Sets up GLAD. Which we use to configure and manage OpenGL so that it can support any platform, GPU etc. 
 	glViewport(0, 0, width, height); // viewport of OpenGL in the Window
+
+
+
+	ISoundEngine* engine = createIrrKlangDevice();
+	if (!engine) {
+		std::cout << " Failed to create sound engine " << std::endl;
+		return 0;
+	}
+	engine->play2D("AudioFiles/230-days-of-winter-154438.mp3", true); // Play and loop
+
 
 	// positions of the point lights
 	glm::vec3 SpotLightPositions[] = {
@@ -187,6 +199,7 @@ int main()
 	lightShader.Delete();
 	skyboxShader.Delete();
 
+	engine->drop(); // Delete audio engine 
 	glfwDestroyWindow(window);
 	glfwTerminate();
 	return 0;
