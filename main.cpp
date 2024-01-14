@@ -1,37 +1,9 @@
 #include"Model.h"
 #include"SkyBox.h"
 #include "ProceduralGenerator.h"
+#include "Light.h"
 
 const unsigned int width = 1920, height = 1080;
-
-Vertex lightVertices[] =
-{ //     COORDINATES     //
-	Vertex{glm::vec3(-0.1f, -0.1f,  0.1f)},
-	Vertex{glm::vec3(-0.1f, -0.1f, -0.1f)},
-	Vertex{glm::vec3(0.1f, -0.1f, -0.1f)},
-	Vertex{glm::vec3(0.1f, -0.1f,  0.1f)},
-	Vertex{glm::vec3(-0.1f,  0.1f,  0.1f)},
-	Vertex{glm::vec3(-0.1f,  0.1f, -0.1f)},
-	Vertex{glm::vec3(0.1f,  0.1f, -0.1f)},
-	Vertex{glm::vec3(0.1f,  0.1f,  0.1f)}
-};
-
-GLuint lightIndices[] =
-{
-	0, 1, 2,
-	0, 2, 3,
-	0, 4, 7,
-	0, 7, 3,
-	3, 7, 6,
-	3, 6, 2,
-	2, 6, 5,
-	2, 5, 1,
-	1, 5, 4,
-	1, 4, 0,
-	4, 5, 6,
-	4, 6, 7
-};
-
 
 int main()
 {
@@ -53,6 +25,7 @@ int main()
 		glfwTerminate();
 		return -1;
 	}
+
 	glfwMakeContextCurrent(window); // Brings the window into the context of this program
 
 	#pragma endregion
@@ -60,37 +33,24 @@ int main()
 	gladLoadGL(); // Sets up GLAD. Which we use to configure and manage OpenGL so that it can support any platform, GPU etc. 
 	glViewport(0, 0, width, height); // viewport of OpenGL in the Window
 
-	Texture textures[]
-	{
-		Texture(string("planks.png"), "diffuse", 0),
-		Texture(string("planks.png"), "specular", 1)
-	};
-
 	// positions of the point lights
 	glm::vec3 SpotLightPositions[] = {
 		glm::vec3(8.0f, -8.0f, -55.0f),
 		glm::vec3(1.0f,  .3f, -.5f),
-		glm::vec3(4.0f,  0.0f,22.0f),
+		glm::vec3(-110.0f, -100.0f, -90.0f),
 		glm::vec3(1.0f, .3f, 1.0f)
 	};
 
 	// positions of the point lights
 	glm::vec3 PointLightPositions[] = {
 		glm::vec3(8.0f, -8.0f, -55.0f),
-		glm::vec3(1.0f,  .3f, -.5f),
-		glm::vec3(4.0f,  0.0f,22.0f),
-		glm::vec3(1.0f, .3f, 1.0f)
+		glm::vec3(12.0f, -10.0f, -56.0f),
+		glm::vec3(-110.0f, -100.0f, -90.0f),
+		glm::vec3(100.0f, -60.0f, -70.0f)
 	};
 
 	Shader shaderProgram("default.vert", "default.frag"); // Setting up Shader
-	
-
-	// Shader for light cube
-	Shader lightShader("light.vert", "light.frag");
-	// Store mesh data in vectors for the mesh
-	std::vector <Vertex> lightVerts(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(Vertex));
-	std::vector <GLuint> lightInd(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
-
+	Shader lightShader("light.vert", "light.frag");	// Shader for light cube
 
 	// Procedural Generation - Debris
 	ProceduralGenerator pc(glm::vec3(100.0f, -60.0f, -70.0f), 34, 2.5f, .75f, rand() % (100), vector<string>{
@@ -118,14 +78,8 @@ int main()
 
 
 	//// Create light mesh
-	std::vector <Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
-	Mesh light(lightVerts, lightInd, tex);
-	Mesh light1(lightVerts, lightInd, tex);
-	Mesh light2(lightVerts, lightInd, tex);
-	Mesh light3(lightVerts, lightInd, tex);
-
+	Light light; Light light1; Light light2; Light light3;
 	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-	glm::mat4 testModel;
 
 	// SkyBox
 	Shader skyboxShader("Skybox.vert", "Skybox.frag");
@@ -139,7 +93,6 @@ int main()
 	Model MainSpaceShipDestroyed("Models/MainDestroyedShip/SpaceshipDestroyed.gltf" ,glm::vec3(10.0f, -8.0f, -60.0f));
 	Model DebrisCircle("Models/DebrisCircle/SpaceshipDestroyed.obj", glm::vec3(8.0f, -8.0f, -55.0f));
 	Model SmallShip1("Models/SmallShip/SmallShip.obj", glm::vec3(6.0f, -7.0f, -52.0f));
-	//Model SmallShip2("Models/SmallShip/SmallShip.obj", glm::vec3(2.0f, -7.0f, -49.0f));
 	Model debris("Models/Debris1/SpaceshipDestroyed.obj"  ,glm::vec3(-35.0f, 1.0f, 3.0f));
 	
 	DebrisCircle.rotationZ = 12.0f;
@@ -148,8 +101,8 @@ int main()
 
 	SmallShip1.scale = 0.30f;
 	SmallShip1.rotationY = -45.0f;
-	light.rotationY = 45.0f;
-	//SmallShip2.scale = 0.30f;
+	light.mesh.rotationY = 45.0f;
+	light1.mesh.rotationY = 45.0f;
 
 	glEnable(GL_DEPTH_TEST); // Closer objects rendered on top. 
 
@@ -205,26 +158,18 @@ int main()
 			}
 		}
 
-		
-
+		// Ligthing
 		PointLightPositions[0] = SmallShip1.position + glm::vec3(0.17f,0.35f,-0.2);
-		light.scale = .5f;
-		light.Draw(lightShader, camera, PointLightPositions[0], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
-		light1.Draw(lightShader, camera, SpotLightPositions[1], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
-		light2.Draw(lightShader, camera, SpotLightPositions[2], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
-		light3.Draw(lightShader, camera, SpotLightPositions[3], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
-		
-		
-		
+		light.mesh.scale = .5f;
+		light.mesh.Draw(lightShader, camera, PointLightPositions[0], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
+		light1.mesh.Draw(lightShader, camera, PointLightPositions[1], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
+		light2.mesh.Draw(lightShader, camera, PointLightPositions[2], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
+		light3.mesh.Draw(lightShader, camera, PointLightPositions[3], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
 
 		MainSpaceShipDestroyed.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
 		DebrisCircle.rotationY = slowerRotation;
 		DebrisCircle.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
 		SmallShip1.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
-		//SmallShip2.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
-		
-		//debris.rotationY = rotation;
-		//debris.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
 
 		pc.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
 		pc2.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
