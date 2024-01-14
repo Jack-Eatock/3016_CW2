@@ -1,4 +1,5 @@
 #include"CamController.h"
+#include"AudioManager.h"
 
 CamController::CamController(int width, int height, glm::vec3 position)
 {
@@ -24,8 +25,21 @@ void CamController::Matrix(Shader& shader, const char* uniform)
 	glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, glm::value_ptr(cameraMatrix));
 }
 
-void CamController::Inputs(GLFWwindow* window)
+void CamController::Inputs(GLFWwindow* window, float crTime)
 {
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS ||
+		glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS ||
+		glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS ||
+		glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS ||
+		glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS ||
+		glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS) 
+	{
+		AudioManager::PlaySFX("AudioFiles/good-jetpack-sound-loop-96693.mp3");
+	}
+	else {
+		AudioManager::StopSFX();
+	}
+
 	// Handles key inputs
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{

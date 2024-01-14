@@ -45,6 +45,6 @@ public:
 	void RotateCamera(float xRot, float yRot);
 
 	// Handles camera inputs
-	void Inputs(GLFWwindow* window);
+	void Inputs(GLFWwindow* window, float crTime);
 };
 #endif

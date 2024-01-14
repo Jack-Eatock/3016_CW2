@@ -2,8 +2,7 @@
 #include"SkyBox.h"
 #include "ProceduralGenerator.h"
 #include "Light.h"
-#include<irrKlang.h>
-using namespace irrklang;
+#include "AudioManager.h"
 
 const unsigned int width = 1920, height = 1080;
 
@@ -36,13 +35,8 @@ int main()
 	glViewport(0, 0, width, height); // viewport of OpenGL in the Window
 
 
-
-	ISoundEngine* engine = createIrrKlangDevice();
-	if (!engine) {
-		std::cout << " Failed to create sound engine " << std::endl;
-		return 0;
-	}
-	engine->play2D("AudioFiles/230-days-of-winter-154438.mp3", true); // Play and loop
+	// Play Music
+	AudioManager::PlayMusic("AudioFiles/230-days-of-winter-154438.mp3");
 
 
 	// positions of the point lights
@@ -114,6 +108,7 @@ int main()
 	SmallShip1.scale = 0.30f;
 	SmallShip1.rotationY = -45.0f;
 	light.mesh.rotationY = 45.0f;
+	light.mesh.scale = .5f;
 	light1.mesh.rotationY = 45.0f;
 
 	glEnable(GL_DEPTH_TEST); // Closer objects rendered on top. 
@@ -135,15 +130,17 @@ int main()
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f); // Bg colour
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear back buffer
 		
-		camera.Inputs(window);
-		camera.UpdateMatrix(45.0f, .1f, 200.0f);
-
+		// Time
 		double crntTime = glfwGetTime();
 		if (crntTime - prevTime >= 1 / 60) {
 			rotation += .050f;
 			slowerRotation += .030;
 			prevTime = crntTime;
 		}
+
+		// Camera
+		camera.Inputs(window, crntTime);
+		camera.UpdateMatrix(45.0f, .1f, 200.0f);
 
 		// Small Ship 1
 		if (movingRight) 
@@ -172,21 +169,23 @@ int main()
 
 		// Ligthing
 		PointLightPositions[0] = SmallShip1.position + glm::vec3(0.17f,0.35f,-0.2);
-		light.mesh.scale = .5f;
 		light.mesh.Draw(lightShader, camera, PointLightPositions[0], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
 		light1.mesh.Draw(lightShader, camera, PointLightPositions[1], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
 		light2.mesh.Draw(lightShader, camera, PointLightPositions[2], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
 		light3.mesh.Draw(lightShader, camera, PointLightPositions[3], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
 
+		// Models
 		MainSpaceShipDestroyed.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
 		DebrisCircle.rotationY = slowerRotation;
 		DebrisCircle.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
 		SmallShip1.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
 
+		// Procedural Meshes
 		pc.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
 		pc2.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
 		pc3.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
 
+		// Skybox
 		skybox.Draw(skyboxShader, camera, width, height);
 	
 		glfwSwapBuffers(window);// Swap the back buffer with the front buffer
@@ -199,7 +198,7 @@ int main()
 	lightShader.Delete();
 	skyboxShader.Delete();
 
-	engine->drop(); // Delete audio engine 
+	AudioManager::Delete();
 	glfwDestroyWindow(window);
 	glfwTerminate();
 	return 0;
