@@ -1,5 +1,6 @@
 #include"Model.h"
 #include"SkyBox.h"
+#include "ProceduralGenerator.h"
 
 const unsigned int width = 800, height = 800;
 
@@ -108,7 +109,16 @@ int main()
 	// Store mesh data in vectors for the mesh
 	std::vector <Vertex> lightVerts(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(Vertex));
 	std::vector <GLuint> lightInd(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
-	
+
+
+	// Procedural Generation
+	ProceduralGenerator pc(glm::vec3(2.0f, -8.0f, -55.0f), 20.0f, 1.5f, vector<string>{
+			"Models/Debris1/SpaceshipDestroyed.obj",
+			"Models/SpaceShip/Spaceship.gltf"
+	});
+
+
+
 	//// Create light mesh
 	Mesh light(lightVerts, lightInd, tex);
 	Mesh light1(lightVerts, lightInd, tex);
@@ -173,7 +183,7 @@ int main()
 		//floor.rotationY = rotation;
 		//floor.Draw(shaderProgram, camera, glm::vec3(0.5f, .0f, 15.0f), glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
 		
-		MainSpaceShip.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
+	/*	MainSpaceShip.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
 		DebrisCircle.rotationY = slowerRotation;
 		DebrisCircle.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
 
@@ -183,6 +193,9 @@ int main()
 
 		debris.rotationY = rotation;
 		debris.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
+		*/
+
+		pc.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
 
 		skybox.Draw(skyboxShader, camera, width, height);
 	

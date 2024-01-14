@@ -11,8 +11,6 @@ void Texture::SetupTexture(std::string image, std::string texType, GLuint slot, 
 	type = texType;
 	fileDir = image;
 
-	std::cout << "Load " << image << std::endl;
-
 	// The width and height is obtained from the image itself.
 	int widthImg, heightImg, numColCh;
 	stbi_set_flip_vertically_on_load(flip); // STBI has inverse axis to OpenGl so flip the image.
@@ -47,7 +45,7 @@ void Texture::SetupTexture(std::string image, std::string texType, GLuint slot, 
 		// Unbinds the OpenGL Texture object so that it can't accidentally be modified
 		glBindTexture(GL_TEXTURE_2D, 0);
 
-		std::cout << "Loaded Texture:" << fileDir << std::endl;
+		std::cout << "--------------  Texture [Loaded] : " << fileDir << std::endl;
 	}
 
 	else

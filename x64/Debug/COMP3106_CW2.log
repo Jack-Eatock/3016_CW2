@@ -1,7 +1,6 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (COMP3106_CW2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  Mesh.cpp
-C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Mesh.cpp(108,43): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-  Model.cpp
-  Texture.cpp
-  Generating Code...
+  Main.cpp
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(173,26): warning C4305: '+=': truncation from 'double' to 'float'
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(130,12): warning C4101: 'testModel': unreferenced local variable
+glfw3.lib(window.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(window.obj)' or at ''; linking object as if no debug info
   COMP3106_CW2.vcxproj -> C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\x64\Debug\COMP3016_CW2.exe

@@ -51,7 +51,7 @@ void Mesh::Draw(Shader& shader, CamController& camera, glm::vec3 objectPos, glm:
 			num = std::to_string(numSpecular);
 		}
 		
-		//std::cout << "HERE " << (type + num).c_str() << std::endl;
+		//std::cout << (type + num).c_str() << std::endl;
 
 		textures[i].texUnit(shader, (type + num).c_str(), i);
 		textures[i].Bind();

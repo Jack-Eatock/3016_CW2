@@ -130,7 +130,7 @@ vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type,
            // std::cout <<  "Result " << textures_loaded[j].fileDir + " a " << textures_loaded[j].ID << std::endl;
             if (std::strcmp(textures_loaded[j].fileDir.data(), filename.c_str()) == 0)
             {
-                std::cout << "SKIP Texture" << std::endl;
+                std::cout << "--------------  Texture [Skipped]" << std::endl;
                 textures.push_back(textures_loaded[j]);
                 skip = true;
                 break;
