@@ -1,0 +1,12 @@
+# Blender 4.0.2 MTL File: 'SpaceshipDestroyed.blend'
+# www.blender.org
+
+newmtl Material
+Ns 17.376047
+Ka 0.877273 0.877273 0.877273
+Ks 0.545455 0.545455 0.545455
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd pixil-frame-0.png

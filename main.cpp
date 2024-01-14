@@ -4,22 +4,6 @@
 
 const unsigned int width = 800, height = 800;
 
-// Vertices coordinates
-Vertex vertices[] =
-{ //               COORDINATES           /            COLORS          /           NORMALS         /       TEXTURE COORDINATES    //
-	Vertex{glm::vec3(-1.0f, 0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 0.0f)},
-	Vertex{glm::vec3(-1.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 1.0f)},
-	Vertex{glm::vec3(1.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 1.0f)},
-	Vertex{glm::vec3(1.0f, 0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f)}
-};
-
-// Indices for vertices order
-GLuint indices[] =
-{
-	0, 1, 2,
-	0, 2, 3
-};
-
 Vertex lightVertices[] =
 { //     COORDINATES     //
 	Vertex{glm::vec3(-0.1f, -0.1f,  0.1f)},
@@ -99,10 +83,7 @@ int main()
 	};
 
 	Shader shaderProgram("default.vert", "default.frag"); // Setting up Shader
-	std::vector <Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
-	std::vector <GLuint> ind(indices, indices + sizeof(indices) / sizeof(GLuint));
-	std::vector <Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
-	Mesh floor(verts, ind, tex);
+	
 
 	// Shader for light cube
 	Shader lightShader("light.vert", "light.frag");
@@ -111,15 +92,37 @@ int main()
 	std::vector <GLuint> lightInd(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
 
 
-	// Procedural Generation
-	ProceduralGenerator pc(glm::vec3(2.0f, -8.0f, -55.0f), 20.0f, 1.5f, vector<string>{
+	// Procedural Generation - Debris
+	ProceduralGenerator pc(glm::vec3(100.0f, -60.0f, -70.0f), 34, 2.5f, .75f, rand() % (100), vector<string>{
 			"Models/Debris1/SpaceshipDestroyed.obj",
-			"Models/SpaceShip/Spaceship.gltf"
+			"Models/Debris2/SpaceshipDestroyed.obj",
+			"Models/Debris3/SpaceshipDestroyed.obj"
+	});
+
+	// Procedural Generation 2 - Astroid Belt
+	ProceduralGenerator pc2(glm::vec3(-90.0f, -100.0f, -90.0f), 30, 3.0f, .68f, rand() % (100), vector<string>{
+			"Models/Rocks/Rock1/Rock1.obj",
+			"Models/Rocks/Rock1/Rock2.obj",
+			"Models/Rocks/Rock1/Rock3.obj",
+			"Models/Rocks/Rock1/Rock4.obj"
+	});
+
+	// Procedural Generation 3 - Astroid and Debris
+	ProceduralGenerator pc3(glm::vec3(6.0f, 2.0f, -160.0f), 26, 3.0f, .71f, rand() % (100), vector<string>{
+			"Models/Rocks/Rock1/Rock1.obj",
+			"Models/Rocks/Rock1/Rock2.obj",
+			"Models/Debris2/SpaceshipDestroyed.obj",
+			"Models/Rocks/Rock1/Rock3.obj",
+			"Models/Rocks/Rock1/Rock4.obj",
+			"Models/Rocks/Rock1/Rock3.obj",
+			"Models/Rocks/Rock1/Rock4.obj",
+			"Models/Rocks/Rock1/Rock1.obj",
+			"Models/Rocks/Rock1/Rock2.obj",
 	});
 
 
-
 	//// Create light mesh
+	std::vector <Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
 	Mesh light(lightVerts, lightInd, tex);
 	Mesh light1(lightVerts, lightInd, tex);
 	Mesh light2(lightVerts, lightInd, tex);
@@ -139,18 +142,18 @@ int main()
 	shaderProgram.Activate();
 
 	Model ourModel3("Models/BackPack/backpack.obj", glm::vec3(50.0f, 1.0f, 3.0f), true);
-	Model MainSpaceShip("Models/SpaceShip/Spaceship.gltf" ,glm::vec3(2.0f, -8.0f, -55.0f));
+	Model MainSpaceShipDestroyed("Models/MainDestroyedShip/SpaceshipDestroyed.gltf" ,glm::vec3(10.0f, -8.0f, -60.0f));
 	
 	Model DebrisCircle("Models/DebrisCircle/SpaceshipDestroyed.obj", glm::vec3(8.0f, -8.0f, -55.0f));
 	DebrisCircle.rotationZ = 12.0f;
-	MainSpaceShip.rotationZ = 12.0f;
-	MainSpaceShip.rotationY = 45.0f;
+	MainSpaceShipDestroyed.rotationZ = 12.0f;
+	MainSpaceShipDestroyed.rotationY = 45.0f;
 	Model ourModel2("Models/New Folder(2)/Fighter_01.gltf" ,glm::vec3(-10.0f, 1.0f, 3.0f));
 	Model debris("Models/Debris1/SpaceshipDestroyed.obj"  ,glm::vec3(-35.0f, 1.0f, 3.0f));
 
 	glEnable(GL_DEPTH_TEST); // Closer objects rendered on top. 
 
-	CamController camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
+	CamController camera(width, height, glm::vec3(8.0f,20.0f, 10.0f));
 
 	float rotation = 0.0f;
 	float slowerRotation = 0.0f;
@@ -174,28 +177,25 @@ int main()
 			prevTime = crntTime;
 		}
 
-		//floor.Draw(shaderProgram, camera,     glm::vec3(0.5f, .0f, 1.0f),     glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
 		//light.Draw(lightShader, camera, SpotLightPositions[0], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
 		//light1.Draw(lightShader, camera, SpotLightPositions[1], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
 		//light2.Draw(lightShader, camera, SpotLightPositions[2], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
 		//light3.Draw(lightShader, camera, SpotLightPositions[3], glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
 		
-		//floor.rotationY = rotation;
-		//floor.Draw(shaderProgram, camera, glm::vec3(0.5f, .0f, 15.0f), glm::mat4(1.0f), lightColor, SpotLightPositions, PointLightPositions);
 		
-	/*	MainSpaceShip.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
+		MainSpaceShipDestroyed.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
 		DebrisCircle.rotationY = slowerRotation;
 		DebrisCircle.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
 
-		ourModel2.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
-		ourModel3.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
-		
+		//ourModel2.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
+		//ourModel3.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
 
-		debris.rotationY = rotation;
-		debris.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
-		*/
+		//debris.rotationY = rotation;
+		//debris.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
 
 		pc.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
+		pc2.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
+		pc3.Draw(shaderProgram, camera, lightColor, SpotLightPositions, PointLightPositions);
 
 		skybox.Draw(skyboxShader, camera, width, height);
 	

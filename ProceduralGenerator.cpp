@@ -3,7 +3,7 @@
 #include <iostream> 
 #include <time.h> 
 
-ProceduralGenerator::ProceduralGenerator(glm::vec3 position, float size, float spacing, vector<string> files)
+ProceduralGenerator::ProceduralGenerator(glm::vec3 position, int size, float spacing, float min, float seed, vector<string> files)
 {
 	//Assigning perlin noise type for map
 	FastNoiseLite TerrainNoise;
@@ -12,11 +12,11 @@ ProceduralGenerator::ProceduralGenerator(glm::vec3 position, float size, float s
 	//Sets the noise scale
 	TerrainNoise.SetFrequency(0.5f);
 	//Generates a random seed between integers 0 & 100
-	int terrainSeed = rand() % 100;
+	int terrainSeed = seed;
 	//Sets seed for noise
 	TerrainNoise.SetSeed(terrainSeed);
-	float noise = 0.0f;
 
+	float noise = 0.0f;
 	int num = 0;
 	for ( int x = 0; x < size; x++)
 	{
@@ -26,7 +26,7 @@ ProceduralGenerator::ProceduralGenerator(glm::vec3 position, float size, float s
 			{
 				noise = TerrainNoise.GetNoise(float(x), float(y), float(z));
 				//std::cout << " noise " << noise << " " << x << " " << y << std::endl;
-				if (noise > .75f || noise < -.75f)
+				if (noise > min || noise < -min)
 				{
 					num++;
 
@@ -37,7 +37,7 @@ ProceduralGenerator::ProceduralGenerator(glm::vec3 position, float size, float s
 
 					// Which model to spawn?
 					string modelFile = files[rand() % files.size()];
-					Model newObject(modelFile, newPos, true);
+					Model newObject(modelFile, newPos);
 
 					// Rotate model
 					int axis = rand() % (3);
@@ -66,7 +66,7 @@ void ProceduralGenerator::Draw(Shader& shader, CamController& camera, glm::vec4 
 		return;
 	}
 
-	std::cout << models.size() << " " << models[0].position.x << " " << models[1].position.x << models[2].position.x << std::endl;
+	//std::cout << models.size() << " " << models[0].position.x << " " << models[1].position.x << models[2].position.x << std::endl;
 	for (int i = 0; i < models.size(); i++)
 	{
 		
