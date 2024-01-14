@@ -100,24 +100,20 @@ int main()
 	});
 
 	// Procedural Generation 2 - Astroid Belt
-	ProceduralGenerator pc2(glm::vec3(-90.0f, -100.0f, -90.0f), 30, 3.0f, .68f, rand() % (100), vector<string>{
+	ProceduralGenerator pc2(glm::vec3(-100.0f, -100.0f, -90.0f), 30, 3.0f, .68f, rand() % (100), vector<string>{
 			"Models/Rocks/Rock1/Rock1.obj",
-			"Models/Rocks/Rock1/Rock2.obj",
-			"Models/Rocks/Rock1/Rock3.obj",
-			"Models/Rocks/Rock1/Rock4.obj"
+			"Models/Rocks/Rock2/Rock1.obj",
+			"Models/Rocks/Rock3/Rock1.obj",
+			"Models/Rocks/Rock4/Rock1.obj"
 	});
 
 	// Procedural Generation 3 - Astroid and Debris
 	ProceduralGenerator pc3(glm::vec3(6.0f, 2.0f, -160.0f), 26, 3.0f, .71f, rand() % (100), vector<string>{
 			"Models/Rocks/Rock1/Rock1.obj",
-			"Models/Rocks/Rock1/Rock2.obj",
+			"Models/Rocks/Rock2/Rock1.obj",
 			"Models/Debris2/SpaceshipDestroyed.obj",
-			"Models/Rocks/Rock1/Rock3.obj",
-			"Models/Rocks/Rock1/Rock4.obj",
-			"Models/Rocks/Rock1/Rock3.obj",
-			"Models/Rocks/Rock1/Rock4.obj",
-			"Models/Rocks/Rock1/Rock1.obj",
-			"Models/Rocks/Rock1/Rock2.obj",
+			"Models/Rocks/Rock3/Rock1.obj",
+			"Models/Rocks/Rock4/Rock1.obj"
 	});
 
 

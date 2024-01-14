@@ -1,8 +1,8 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (COMP3106_CW2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   Main.cpp
 C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(96,83): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(103,85): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(103,86): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(111,81): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(176,26): warning C4305: '+=': truncation from 'double' to 'float'
-C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(133,12): warning C4101: 'testModel': unreferenced local variable
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(172,26): warning C4305: '+=': truncation from 'double' to 'float'
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(129,12): warning C4101: 'testModel': unreferenced local variable
   COMP3106_CW2.vcxproj -> C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\x64\Debug\COMP3016_CW2.exe
