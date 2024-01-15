@@ -3,6 +3,13 @@ An interactive 3D experience amongst the stars. Explore the aftermath of a large
 
 ## How to run the program:
 
+##### From a build zip:
+
+ 1. Firstly unzip the build.zip file
+ 2. Open the build folder and launch the executable "COMP3016_CW2.exe"
+ 3. Now I recommend that you have a look at the controls section.
+
+##### From the Repo:
  1. Firstly download the repository.
  2. Within the project, navigate to x64/Debug and run the executable "COMP3016_CW2.exe"
  3. The game should start and you will already be able to interact! 
@@ -17,7 +24,7 @@ An interactive 3D experience amongst the stars. Explore the aftermath of a large
 
 ## Links:
 - [Github Repository](https://github.com/Jack-Eatock/COMP3016_CW2)
-- Walkthrough Youtube Video
+- [Walkthrough Youtube Video](https://www.youtube.com/watch?v=uEkGhRcld3I&ab_channel=JackEatock)
 
 ## Tools:
 - OpenGL - Is the backbone of this project, providing the tools to render objects to the screen.
