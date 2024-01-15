@@ -1,7 +1,6 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (COMP3106_CW2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   AudioManager.cpp
   CamController.cpp
-  EntityBufferObject.cpp
   Light.cpp
 C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Mesh.h(23,2): warning C4091: 'static ': ignored on left of 'LightSettings' when no variable is declared
   Main.cpp
@@ -27,28 +26,6 @@ C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\ProceduralGenerato
 C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\ProceduralGenerator.cpp(47,29): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\ProceduralGenerator.cpp(49,29): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\ProceduralGenerator.cpp(51,29): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  shaderClass.cpp
   SkyBox.cpp
-  stb.cpp
-  Texture.cpp
-  VertexArrayObject.cpp
-C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\VertexArrayObject.cpp(12,63): warning C4244: 'argument': conversion from 'GLsizeiptr' to 'GLsizei', possible loss of data
-  VertexBufferObject.cpp
   Generating Code...
-  glad.c
-glfw3.lib(input.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(input.obj)' or at ''; linking object as if no debug info
-glfw3.lib(init.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(init.obj)' or at ''; linking object as if no debug info
-glfw3.lib(window.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(window.obj)' or at ''; linking object as if no debug info
-glfw3.lib(context.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(context.obj)' or at ''; linking object as if no debug info
-glfw3.lib(win32_window.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(win32_window.obj)' or at ''; linking object as if no debug info
-glfw3.lib(win32_joystick.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(win32_joystick.obj)' or at ''; linking object as if no debug info
-glfw3.lib(win32_time.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(win32_time.obj)' or at ''; linking object as if no debug info
-glfw3.lib(win32_init.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(win32_init.obj)' or at ''; linking object as if no debug info
-glfw3.lib(win32_monitor.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(win32_monitor.obj)' or at ''; linking object as if no debug info
-glfw3.lib(win32_thread.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(win32_thread.obj)' or at ''; linking object as if no debug info
-glfw3.lib(monitor.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(monitor.obj)' or at ''; linking object as if no debug info
-glfw3.lib(vulkan.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(vulkan.obj)' or at ''; linking object as if no debug info
-glfw3.lib(wgl_context.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(wgl_context.obj)' or at ''; linking object as if no debug info
-glfw3.lib(egl_context.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(egl_context.obj)' or at ''; linking object as if no debug info
-glfw3.lib(osmesa_context.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(osmesa_context.obj)' or at ''; linking object as if no debug info
   COMP3106_CW2.vcxproj -> C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\x64\Debug\COMP3016_CW2.exe
