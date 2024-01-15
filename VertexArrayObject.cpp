@@ -6,6 +6,9 @@ VertexArrayObject::VertexArrayObject()
 	glGenVertexArrays(1, &ID);
 }
 
+/// <summary>
+/// Binds an attribute to the array. For example vertices, indices etc.
+/// </summary>
 void VertexArrayObject::LinkAttrib(VertexBufferObject& VBO, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void* offset)
 {
 	VBO.Bind();
