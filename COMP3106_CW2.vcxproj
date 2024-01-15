@@ -72,12 +72,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Libraries\include;C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Libraries\lib;C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Public\OpenGL\include;C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Libraries\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Public\OpenGL\lib;C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Libraries\include;C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%25\COMP3016_CW2\Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Libraries\lib;C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%25\COMP3016_CW2\Libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Public\OpenGL\include;C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%25\COMP3016_CW2\Libraries\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Public\OpenGL\lib;C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%25\COMP3016_CW2\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>C:\Users\Jack Eatock\Documents\Uni\Uni Final Year\Comp3016\70%25\COMP3016_CW2\Libraries\include;$(IncludePath)</IncludePath>
