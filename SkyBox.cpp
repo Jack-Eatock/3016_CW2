@@ -7,13 +7,13 @@
 float skyboxVertices[] =
 {
 	//   Coordinates
-	-1.0f, -1.0f,  1.0f,//        7--------6
-	 1.0f, -1.0f,  1.0f,//       /|       /|
-	 1.0f, -1.0f, -1.0f,//      4--------5 |
-	-1.0f, -1.0f, -1.0f,//      | |      | |
-	-1.0f,  1.0f,  1.0f,//      | 3------|-2
-	 1.0f,  1.0f,  1.0f,//      |/       |/
-	 1.0f,  1.0f, -1.0f,//      0--------1
+	-1.0f, -1.0f,  1.0f,
+	 1.0f, -1.0f,  1.0f,
+	 1.0f, -1.0f, -1.0f,
+	-1.0f, -1.0f, -1.0f,
+	-1.0f,  1.0f,  1.0f,
+	 1.0f,  1.0f,  1.0f,
+	 1.0f,  1.0f, -1.0f,
 	-1.0f,  1.0f, -1.0f
 };
 
@@ -66,18 +66,19 @@ SkyBox::SkyBox()
 		"back.png"
 	};
 
-	// Creates the cubemap texture object
+	// Creates a CUBEMAPPING texture.
 	glGenTextures(1, &cubeTexture);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, cubeTexture);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	// These are very important to prevent seams
+
+	// Prevents seams
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
-	// Cycles through all the textures and attaches them to the cubemap object
+	// Looks over the textures and applies them to the cube map
 	for (unsigned int i = 0; i < 6; i++)
 	{
 		stbi_set_flip_vertically_on_load(false);
@@ -114,8 +115,8 @@ void SkyBox::Draw(Shader shader, CamController  camera, float width, float heigh
 	shader.Activate();
 	glm::mat4 view = glm::mat4(1.0f);
 	glm::mat4 projection = glm::mat4(1.0f);
-	// We make the mat4 into a mat3 and then a mat4 again in order to get rid of the last row and column
-	// The last row and column affect the translation of the skybox (which we don't want to affect)
+
+	// Remove the last part of the mat4, not needed and they will effect the transforms. 
 	view = glm::mat4(glm::mat3(glm::lookAt(camera.Position, camera.Position + camera.Orientation, camera.Up)));
 	projection = glm::perspective(glm::radians(45.0f), (float)width / height, 0.1f, 100.0f);
 	glUniformMatrix4fv(glGetUniformLocation(shader.ID, "view"), 1, GL_FALSE, glm::value_ptr(view));
