@@ -1,16 +1,14 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (COMP3106_CW2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   Main.cpp
 C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Mesh.h(23,2): warning C4091: 'static ': ignored on left of 'LightSettings' when no variable is declared
-C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(61,83): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(68,86): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(76,81): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(137,26): warning C4305: '+=': truncation from 'double' to 'float'
-C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(142,25): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(152,19): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(162,19): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(176,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(183,35): warning C4305: '-=': truncation from 'double' to 'float'
-C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(189,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-glfw3.lib(monitor.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(monitor.obj)' or at ''; linking object as if no debug info
-glfw3.lib(win32_joystick.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(win32_joystick.obj)' or at ''; linking object as if no debug info
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(62,83): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(69,86): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(77,81): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(141,26): warning C4305: '+=': truncation from 'double' to 'float'
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(146,25): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(156,19): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(166,19): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(180,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(187,35): warning C4305: '-=': truncation from 'double' to 'float'
+C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\Main.cpp(193,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   COMP3106_CW2.vcxproj -> C:\Users\jacke\Documents\University\Comp3016\CW2\COMP3016_CW2\x64\Debug\COMP3016_CW2.exe

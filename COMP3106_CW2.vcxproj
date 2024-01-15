@@ -165,6 +165,8 @@
     <None Include="default.vert" />
     <None Include="light.frag" />
     <None Include="light.vert" />
+    <None Include="outline.frag" />
+    <None Include="outline.vert" />
     <None Include="Skybox.frag" />
     <None Include="Skybox.vert" />
   </ItemGroup>

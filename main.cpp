@@ -56,6 +56,7 @@ int main()
 
 	Shader shaderProgram("default.vert", "default.frag"); // Setting up Shader
 	Shader lightShader("light.vert", "light.frag");	// Shader for light cube
+	Shader outlineShader("outline.vert", "outline.frag");
 
 	// Procedural Generation - Debris
 	ProceduralGenerator pc(glm::vec3(100.0f, -60.0f, -70.0f), 34, 2.5f, .75f, rand() % (100), vector<string>{
@@ -98,19 +99,22 @@ int main()
 	Model DebrisCircle("Models/DebrisCircle/SpaceshipDestroyed.obj", glm::vec3(8.0f, -8.0f, -55.0f));
 	Model SmallShip1("Models/SmallShip/SmallShip.obj", glm::vec3(6.0f, -7.0f, -52.0f));
 	Model Signature("Models/Signature/Signature.obj", glm::vec3(13.2f, -8.25f, -52.0f));
+	Model NormalShip("Models/SpaceShip/Spaceship.gltf", glm::vec3(.0f, 0.0f,  -5.0f));
 	
+	// Transformations
 	DebrisCircle.rotationZ = 12.0f;
 	MainSpaceShipDestroyed.rotationZ = 12.0f;
 	MainSpaceShipDestroyed.rotationY = 45.0f;
-
 	SmallShip1.scale = 0.30f;
 	SmallShip1.rotationY = -45.0f;
 	light.mesh.rotationY = 45.0f;
 	light.mesh.scale = .5f;
-	//light1.mesh.rotationY = 45.0f;
-	//light1.mesh.rotationZ = 12.0f;
 
 	glEnable(GL_DEPTH_TEST); // Closer objects rendered on top. 
+
+	// Outline
+	glEnable(GL_STENCIL_TEST);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
 	CamController camera(width, height, glm::vec3(8.0f,20.0f, 10.0f));
 
@@ -129,7 +133,7 @@ int main()
 	while (!glfwWindowShouldClose(window))
 	{
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f); // Bg colour
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear back buffer
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); // Clear back buffer
 		
 		// Time
 		double crntTime = glfwGetTime();
@@ -191,15 +195,13 @@ int main()
 			}
 		}
 
-
 		// Ligthing
 		pointLights[0].position = SmallShip1.position + glm::vec3(0.17f,0.35f,-0.2);
 		light.mesh.Draw(lightShader, camera, pointLights[0].position, glm::mat4(1.0f), lightColor, SpotLightPositions, pointLights);
-		//light1.mesh.Draw(lightShader, camera, pointLights[1].position, glm::mat4(1.0f), lightColor, SpotLightPositions, pointLights);
 		light2.mesh.Draw(lightShader, camera, pointLights[2].position, glm::mat4(1.0f), lightColor, SpotLightPositions, pointLights);
 		light3.mesh.Draw(lightShader, camera, pointLights[3].position, glm::mat4(1.0f), lightColor, SpotLightPositions, pointLights);
 
-		// Models
+		//// Models
 		MainSpaceShipDestroyed.Draw(shaderProgram, camera, lightColor, SpotLightPositions, pointLights);
 		DebrisCircle.rotationY = slowerRotation;
 		DebrisCircle.Draw(shaderProgram, camera, lightColor, SpotLightPositions, pointLights);
@@ -213,12 +215,24 @@ int main()
 
 		// Skybox
 		skybox.Draw(skyboxShader, camera, width, height);
-	
+
+		// Outline - Reasearch. WIP (Not ready to use, all objects would need more complex transform data)
+		glStencilFunc(GL_ALWAYS, 1, 0xFF);
+		glStencilMask(0xFF);
+		NormalShip.Draw(shaderProgram, camera, lightColor, SpotLightPositions, pointLights);
+		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+		glStencilMask(0x00);
+		glDisable(GL_DEPTH_TEST);
+		outlineShader.Activate();
+		glUniform1f(glGetUniformLocation(outlineShader.ID, "outlining"), 1.1f);
+		NormalShip.Draw(outlineShader, camera, lightColor, SpotLightPositions, pointLights);
+		glStencilMask(0xFF); // Clear
+		glStencilFunc(GL_ALWAYS, 0, 0xFF);
+		glEnable(GL_DEPTH_TEST);
+
 		glfwSwapBuffers(window);// Swap the back buffer with the front buffer
 		glfwPollEvents();
 	}
-
-	#pragma endregion
 
 	shaderProgram.Delete();
 	lightShader.Delete();
