@@ -26,6 +26,9 @@ An interactive 3D experience amongst the stars. Explore the aftermath of a large
 - [Github Repository](https://github.com/Jack-Eatock/COMP3016_CW2)
 - [Walkthrough Youtube Video](https://www.youtube.com/watch?v=uEkGhRcld3I&ab_channel=JackEatock)
 
+##
+[NOTE] If you want to clone this repo. It uses LFS for large files.
+
 ## Tools:
 - OpenGL - Is the backbone of this project, providing the tools to render objects to the screen.
 - C++ - The programming language used to write this project.
