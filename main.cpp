@@ -19,7 +19,7 @@ int main()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // Lets GLFW know we want only the modern CORE functions.
 
 	// Creates the window we use to display
-	GLFWwindow* window = glfwCreateWindow(width, height, "SpaceGame", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(width, height, "Adrift through the debris", NULL, NULL);
 	if (window == NULL)
 	{
 		std::cout << "Failed to create window!" << std::endl;
