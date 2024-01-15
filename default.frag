@@ -60,6 +60,7 @@ uniform vec3 lightPos;
 // Gets the position of the camera from the main function
 uniform vec3 camPos;
 
+// Legacy
 vec4 pointLight()
 {
 	// Light should be less bright over distance.
@@ -107,6 +108,7 @@ vec4 directionLight()
 	return (texture(diffuse0, texCoord) * (diffuse + ambient) + texture(specular0, texCoord).r * specular) * lightColor;
 }
 
+// Legacy
 vec4 spotLight()
 {
 	float outerCone = .60f; //  Imagine the light  is an arrow. The inner is  the first circle which is  of max strength. The outter circle is circle where light is 0.
@@ -134,6 +136,7 @@ vec4 spotLight()
 	return (texture(diffuse0, texCoord) * (diffuse * inten + ambient) + texture(specular0, texCoord).r * specular * inten) * lightColor;
 }
 
+// Calculates the fragment colour applied by a specifc point light
 vec4 CalcPointLight(PointLight pointLight, vec3 viewDirection, vec3 normal )
 {
 	vec3 lightDirection = normalize(pointLight.position - crntPos);
@@ -160,6 +163,7 @@ vec4 CalcPointLight(PointLight pointLight, vec3 viewDirection, vec3 normal )
     return  vec4((ambient + diffuse + specular),1.0f) * pointLight.color;
 }
 
+// Calculates the fragment colour applied by a specifc Spot light
 vec4 CalcSpotLight(SpotLight spotLight, vec3 viewDirection, vec3 normal)
 {
 	// Get the direction of the light!
@@ -196,17 +200,16 @@ void main()
 {
 	vec3 viewDirection = normalize(camPos - crntPos);
 	vec3 normal = normalize(Normal);
-
 	vec4 result = vec4(0.0f, 0.0f, 0.0f, 0.0f);
-
 	result += directionLight();
 
+	// Calculates all spot lights!
 	//for(int i = 0; i < NR_SPOT_LIGHTS; i++)
 		//result += CalcSpotLight(spotLights[i], viewDirection, normal);    
  
+	// Calculates all point lights!
 	for(int i = 0; i < NR_POINT_LIGHTS; i++)
 		result += CalcPointLight(pointLights[i], viewDirection, normal);    
-	
 
 	// outputs final color
 	FragColor =  result;

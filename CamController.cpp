@@ -1,6 +1,7 @@
 #include"CamController.h"
 #include"AudioManager.h"
 
+// Creates the camera object and assigns its basic values.
 CamController::CamController(int width, int height, glm::vec3 position)
 {
 	CamController::width = width;
@@ -8,6 +9,7 @@ CamController::CamController(int width, int height, glm::vec3 position)
 	Position = position;
 }
 
+// Performs the calculations required for view and projection.
 void CamController::UpdateMatrix(float FOVdeg, float nearPlane, float farPlane)
 {
 	view = glm::mat4(1.0f); // Initializes  matrices for View and Proj
@@ -27,6 +29,7 @@ void CamController::Matrix(Shader& shader, const char* uniform)
 
 void CamController::Inputs(GLFWwindow* window, float crTime)
 {
+	// If any movement key is pressed play the movement sound.
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS ||
 		glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS ||
 		glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS ||
@@ -40,7 +43,7 @@ void CamController::Inputs(GLFWwindow* window, float crTime)
 		AudioManager::StopSFX();
 	}
 
-	// Handles key inputs
+	// Handles key inputs, applying movement in their direction.
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
 		Position += speed * Orientation;
@@ -67,19 +70,20 @@ void CamController::Inputs(GLFWwindow* window, float crTime)
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 	{
+		// If shift is pressed increase the speed
 		speed = 0.06f;
 	}
 	else if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
 	{
+		// If shift is released reduce the speed
 		speed = 0.03f;
 	}
 
 
-	// Handles mouse inputs
+	// Mouse inputs
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 	{
-		// Hides mouse cursor
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN); // Hides mouse cursor
 
 		// Prevents camera from jumping on the first click
 		if (firstClick)
@@ -88,30 +92,24 @@ void CamController::Inputs(GLFWwindow* window, float crTime)
 			firstClick = false;
 		}
 
-		// Stores the coordinates of the cursor
+		// Keeping track of the cursor position
 		double mouseX;
 		double mouseY;
-		// Fetches the coordinates of the cursor
 		glfwGetCursorPos(window, &mouseX, &mouseY);
 
-		// Normalizes and shifts the coordinates of the cursor such that they begin in the middle of the screen
-		// and then "transforms" them into degrees 
+		// Calculate the movement from the centre of the screen. Uses it to calculate the rotation to apply from sensitivity.
 		float rotX = sensitivity * (float)(mouseY - (height / 2)) / height;
 		float rotY = sensitivity * (float)(mouseX - (width / 2)) / width;
-
-		// Calculates upcoming vertical change in the Orientation
 		glm::vec3 newOrientation = glm::rotate(Orientation, glm::radians(-rotX), glm::normalize(glm::cross(Orientation, Up)));
 
-		// Decides whether or not the next vertical Orientation is legal or not
+		// Locks the rotations
 		if (abs(glm::angle(newOrientation, Up) - glm::radians(90.0f)) <= glm::radians(85.0f))
-		{
 			Orientation = newOrientation;
-		}
 
-		// Rotates the Orientation left and right
+		// Rotates horizontally
 		Orientation = glm::rotate(Orientation, glm::radians(-rotY), Up);
 
-		// Sets mouse cursor to the middle of the screen so that it doesn't end up roaming around
+		// Sets mouse to centre of screen.
 		glfwSetCursorPos(window, (width / 2), (height / 2));
 	}
 	else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)

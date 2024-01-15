@@ -33,18 +33,13 @@ public:
 	float speed = 0.005f;
 	float sensitivity = 100.0f;
 
-	// Camera constructor to set up initial values
 	CamController(int width, int height, glm::vec3 position);
 
 	// Updates and exports the camera matrix to the Vertex Shader
 	void UpdateMatrix(float FOVdeg, float nearPlane, float farPlanes);
 
-
 	void Matrix(Shader& shader, const char* uniform);
 
-	void RotateCamera(float xRot, float yRot);
-
-	// Handles camera inputs
 	void Inputs(GLFWwindow* window, float crTime);
 };
 #endif

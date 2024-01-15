@@ -7,9 +7,9 @@
 class EntityBufferObject
 {
 public:
-	// ID reference of Elements Buffer Object
+	// ID for this buffer object
 	GLuint ID;
-	// Constructor that generates a Elements Buffer Object and links it to indices
+	// Constructs the entityBuffer with the provided indices.
 	EntityBufferObject(std::vector<GLuint>& indices);
 
 	// Binds the EBO

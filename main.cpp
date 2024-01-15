@@ -28,14 +28,15 @@ int main()
 	}
 
 	glfwMakeContextCurrent(window); // Brings the window into the context of this program
-
-	#pragma endregion
-
 	gladLoadGL(); // Sets up GLAD. Which we use to configure and manage OpenGL so that it can support any platform, GPU etc. 
 	glViewport(0, 0, width, height); // viewport of OpenGL in the Window
 
+	#pragma endregion
+
 	// Play Music
 	AudioManager::PlayMusic("AudioFiles/230-days-of-winter-154438.mp3");
+
+	#pragma region Lights
 
 	// positions, colours and intensity for point lights.
 	LightSettings pointLights[] =
@@ -54,46 +55,56 @@ int main()
 		glm::vec3(1.0f, .3f, 1.0f)
 	};
 
-	Shader shaderProgram("default.vert", "default.frag"); // Setting up Shader
-	Shader lightShader("light.vert", "light.frag");	// Shader for light cube
-	Shader outlineShader("outline.vert", "outline.frag");
-
-	// Procedural Generation - Debris
-	ProceduralGenerator pc(glm::vec3(100.0f, -60.0f, -70.0f), 34, 2.5f, .75f, rand() % (100), vector<string>{
-			"Models/Debris1/SpaceshipDestroyed.obj",
-			"Models/Debris2/SpaceshipDestroyed.obj",
-			"Models/Debris3/SpaceshipDestroyed.obj"
-	});
-
-	// Procedural Generation 2 - Astroid Belt
-	ProceduralGenerator pc2(glm::vec3(-110.0f, -100.0f, -90.0f), 30, 3.0f, .68f, rand() % (100), vector<string>{
-			"Models/Rocks/Rock1/Rock1.obj",
-			"Models/Rocks/Rock2/Rock1.obj",
-			"Models/Rocks/Rock3/Rock1.obj",
-			"Models/Rocks/Rock4/Rock1.obj"
-	});
-
-	// Procedural Generation 3 - Astroid and Debris
-	ProceduralGenerator pc3(glm::vec3(6.0f, 2.0f, -160.0f), 26, 3.0f, .71f, rand() % (100), vector<string>{
-			"Models/Rocks/Rock1/Rock1.obj",
-			"Models/Rocks/Rock2/Rock1.obj",
-			"Models/Debris2/SpaceshipDestroyed.obj",
-			"Models/Rocks/Rock3/Rock1.obj",
-			"Models/Rocks/Rock4/Rock1.obj"
-	});
-
 	//// Create light mesh
 	Light light; Light light1; Light light2; Light light3;
 	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-	// SkyBox
+	#pragma endregion
+
+	#pragma region Shaders
+
+	Shader shaderProgram("default.vert", "default.frag"); // Setting up Shader
+	Shader lightShader("light.vert", "light.frag");	// Shader for light cube
+	Shader outlineShader("outline.vert", "outline.frag");
 	Shader skyboxShader("Skybox.vert", "Skybox.frag");
-	glUniform1i(glGetUniformLocation(skyboxShader.ID, "skybox"), 0);
-
-	SkyBox skybox;
-
 	lightShader.Activate();
 	shaderProgram.Activate();
+
+#pragma endregion
+
+	#pragma region Procedural Generation
+
+		// Procedural Generation - Debris
+		ProceduralGenerator pc(glm::vec3(100.0f, -60.0f, -70.0f), 34, 2.5f, .75f, rand() % (100), vector<string>{
+				"Models/Debris1/SpaceshipDestroyed.obj",
+				"Models/Debris2/SpaceshipDestroyed.obj",
+				"Models/Debris3/SpaceshipDestroyed.obj"
+		});
+
+		// Procedural Generation 2 - Astroid Belt
+		ProceduralGenerator pc2(glm::vec3(-110.0f, -100.0f, -90.0f), 30, 3.0f, .68f, rand() % (100), vector<string>{
+				"Models/Rocks/Rock1/Rock1.obj",
+				"Models/Rocks/Rock2/Rock1.obj",
+				"Models/Rocks/Rock3/Rock1.obj",
+				"Models/Rocks/Rock4/Rock1.obj"
+		});
+
+		// Procedural Generation 3 - Astroid and Debris
+		ProceduralGenerator pc3(glm::vec3(6.0f, 2.0f, -160.0f), 26, 3.0f, .71f, rand() % (100), vector<string>{
+				"Models/Rocks/Rock1/Rock1.obj",
+				"Models/Rocks/Rock2/Rock1.obj",
+				"Models/Debris2/SpaceshipDestroyed.obj",
+				"Models/Rocks/Rock3/Rock1.obj",
+				"Models/Rocks/Rock4/Rock1.obj"
+		});
+
+	#pragma endregion
+
+	// SkyBox
+	glUniform1i(glGetUniformLocation(skyboxShader.ID, "skybox"), 0);
+	SkyBox skybox;
+
+	#pragma region Loading Models
 
 	Model MainSpaceShipDestroyed("Models/MainDestroyedShip/SpaceshipDestroyed.gltf" ,glm::vec3(10.0f, -8.0f, -60.0f));
 	Model DebrisCircle("Models/DebrisCircle/SpaceshipDestroyed.obj", glm::vec3(8.0f, -8.0f, -55.0f));
@@ -110,21 +121,23 @@ int main()
 	light.mesh.rotationY = 45.0f;
 	light.mesh.scale = .5f;
 
-	glEnable(GL_DEPTH_TEST); // Closer objects rendered on top. 
+	#pragma endregion
 
-	// Outline
+	// Closer objects rendered on top. 
+	glEnable(GL_DEPTH_TEST); 
+
+	// Preparing for outline
 	glEnable(GL_STENCIL_TEST);
 	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
+	// Create the camera!
 	CamController camera(width, height, glm::vec3(8.0f,20.0f, 10.0f));
 
 	float slowerRotation = 0.0f;
 	double prevTime = glfwGetTime();
-
 	bool movingRight = true;
 	float timeStarted = 0.0f;
 	float duration = 7;
-
 	bool flashing = true;
 	float flashingTimeStarted = 0.0f;
 	float flashingDuration = 1;
@@ -135,23 +148,23 @@ int main()
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f); // Bg colour
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); // Clear back buffer
 		
-		// Time
+		// Time - Allows for things to happen over time. For example the light blinking.
 		double crntTime = glfwGetTime();
 		if (crntTime - prevTime >= 1 / 60) {
 			slowerRotation += .030;
 			prevTime = crntTime;
 		}
 
-		// Camera
+		// Camera - provide inputs to move the camera and update the matrix for all shaders.
 		camera.Inputs(window, crntTime);
 		camera.UpdateMatrix(45.0f, .1f, 200.0f);
 
-		// Small Ship 1
-		if (movingRight) 
+		#pragma region Moving the small ship with the light.
+		if (movingRight)
 		{
 			// Move right to left
 			SmallShip1.position = SmallShip1.position + glm::vec3(0.015f, 0.00f, 0.015f);
-			if (crntTime - timeStarted > duration) 
+			if (crntTime - timeStarted > duration)
 			{
 				timeStarted = crntTime;
 				movingRight = false;
@@ -167,6 +180,9 @@ int main()
 				movingRight = true;
 			}
 		}
+		#pragma endregion
+
+		#pragma region Making the light in the main ship flash / blink green
 
 		if (flashing)
 		{
@@ -194,29 +210,30 @@ int main()
 				flashing = true;
 			}
 		}
-
-		// Ligthing
+		#pragma endregion
+		
+		// Drawing the Lights
 		pointLights[0].position = SmallShip1.position + glm::vec3(0.17f,0.35f,-0.2);
 		light.mesh.Draw(lightShader, camera, pointLights[0].position, glm::mat4(1.0f), lightColor, SpotLightPositions, pointLights);
 		light2.mesh.Draw(lightShader, camera, pointLights[2].position, glm::mat4(1.0f), lightColor, SpotLightPositions, pointLights);
 		light3.mesh.Draw(lightShader, camera, pointLights[3].position, glm::mat4(1.0f), lightColor, SpotLightPositions, pointLights);
 
-		//// Models
+		// Drawing the Models
 		MainSpaceShipDestroyed.Draw(shaderProgram, camera, lightColor, SpotLightPositions, pointLights);
 		DebrisCircle.rotationY = slowerRotation;
 		DebrisCircle.Draw(shaderProgram, camera, lightColor, SpotLightPositions, pointLights);
 		SmallShip1.Draw(shaderProgram, camera, lightColor, SpotLightPositions, pointLights);
 		Signature.Draw(shaderProgram, camera, lightColor, SpotLightPositions, pointLights);
 
-		// Procedural Meshes
+		// Drawing the Procedural Meshes
 		pc.Draw(shaderProgram, camera, lightColor, SpotLightPositions, pointLights);
 		pc2.Draw(shaderProgram, camera, lightColor, SpotLightPositions, pointLights);
 		pc3.Draw(shaderProgram, camera, lightColor, SpotLightPositions, pointLights);
 
-		// Skybox
+		// Drawing the Skybox
 		skybox.Draw(skyboxShader, camera, width, height);
 
-		// Outline - Reasearch. WIP (Not ready to use, all objects would need more complex transform data)
+		// Calculating and Drawing the Outline - Reasearch. WIP (Not ready to use, all objects would need more complex transform data)
 		glStencilFunc(GL_ALWAYS, 1, 0xFF);
 		glStencilMask(0xFF);
 		NormalShip.Draw(shaderProgram, camera, lightColor, SpotLightPositions, pointLights);
@@ -230,13 +247,16 @@ int main()
 		glStencilFunc(GL_ALWAYS, 0, 0xFF);
 		glEnable(GL_DEPTH_TEST);
 
-		glfwSwapBuffers(window);// Swap the back buffer with the front buffer
+		// Swap the back buffer with the front buffer
+		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 
+	// Clean everything up after.
 	shaderProgram.Delete();
 	lightShader.Delete();
 	skyboxShader.Delete();
+	outlineShader.Delete();
 
 	AudioManager::Delete();
 	glfwDestroyWindow(window);

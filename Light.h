@@ -8,13 +8,9 @@
 
 class Light {
 
-
-
-
 public:
 	Light();
 	Mesh mesh ;
-
 };
 
 

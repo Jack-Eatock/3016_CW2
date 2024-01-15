@@ -15,8 +15,8 @@ public:
 	void Draw(Shader shader, CamController  camera, float width, float height);
 
 private:
-	unsigned int cubeTexture;
-	unsigned int skyboxVAO, skyboxVBO, skyboxEBO;
+	unsigned int cubeTexture; // The reference to the texture that is applied to the skybox
+	unsigned int skyboxVAO, skyboxVBO, skyboxEBO; 
 };
 
 #endif
